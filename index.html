@@ -551,9 +551,8 @@ function renderPay(){
   const [c,r]=PACKS[pick],bx=document.getElementById('payBox');bx.style.display='block';bx.innerHTML='';
   const mkEl=(tag,txt,st)=>{const e=document.createElement(tag);if(txt)e.textContent=txt;if(st)e.style.cssText=st;bx.appendChild(e);return e};
   mkEl('div','🪙 '+c+' = ₹'+r,'font-weight:700;margin:10px 0 6px;text-shadow:0 0 8px #00e5ff');
-  mkEl('div','1) UPI ID: '+UPI+' पर ₹'+r+' भेजो','margin:4px 0');
+  mkEl('div','1) अपने UPI app में "UPI ID पर Pay करो" चुनो, नीचे वाला ID डालो और ठीक ₹'+r+' भेजो','margin:4px 0');mkEl('div',UPI,'font-weight:700;font-size:18px;color:#ffd400;margin:4px 0;-webkit-user-select:text;user-select:text');
   const rw=mkEl('div','','display:flex;gap:8px;flex-wrap:wrap;margin:6px 0');
-  const a=document.createElement('a');a.href='upi://pay?pa='+UPI+'&pn=Neon%20Snake&am='+r+'&cu=INR&tn=Coins';a.textContent='UPI App से Pay करो';a.style.cssText='background:linear-gradient(135deg,#00e5ff,#7a5cff);color:#04101c;border-radius:10px;padding:8px 12px;font-weight:700;text-decoration:none';rw.appendChild(a);
   const cb=document.createElement('button');cb.textContent='UPI ID Copy';cb.onclick=()=>copyTxt(UPI,'UPI ID copy ho gaya');rw.appendChild(cb);
   mkEl('div','2) Payment के बाद UTR / Transaction ID (12 अंक) लिखो','margin:10px 0 4px');
   const inp=document.createElement('input');inp.id='utrIn';inp.placeholder='UTR';inp.inputMode='numeric';inp.maxLength=12;inp.style.cssText='width:100%;box-sizing:border-box;padding:10px;border-radius:10px;border:1px solid rgba(0,229,255,.6);background:rgba(10,8,30,.65);color:#fff;font-size:16px;-webkit-user-select:text;user-select:text';bx.appendChild(inp);
