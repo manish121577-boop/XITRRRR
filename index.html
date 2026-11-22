@@ -194,10 +194,11 @@ const CARS=[
 ].map(a=>({ra:0,rf:0,wb:36,mg:0,fly:0,thr:0,fx:1,stb:0,gv:1,rev:0,tr:0,...a}));
 const WHEELS=[["Standard",0,14,1,0],["Big Wheel",500,18,1,0],["Off-Road",900,17,1.2,0],["Ice Spikes",1400,16,1.15,1],["Sport Slick",2200,16,1.3,0],["Tractor",3500,22,1.35,0],["Mega Wheel",6000,25,1.2,0],["Titan",10000,28,1.45,1]].map(a=>({n:a[0],p:a[1],r:a[2],g:a[3],ice:a[4]}));
 const UPG=[["engine","🔧 Engine Power",200],["speed","🚀 Top Speed",180],["shock","🔩 Shock Absorber",160],["fuel","⛽ Fuel Tank",150],["grip","🛞 Tire Grip",170],["eff","🍃 Fuel Efficiency",220],["air","🌀 Air Control",190],["magnet","🧲 Coin Magnet",210],["boost","💰 Coin Boost",300]];
-const QUESTS=[["Collect 300 coins","coins",300,100],["Drive 3000 m in total","dist",3000,250],["Do 5 flips","flips",5,200],["Reach Level 5","lv",5,300],["Win 3 races","wins",3,400],["Refuel 15 times","fuels",15,200],["Play 15 runs","runs",15,300],["Reach Level 10","lv",10,800],["Do 30 flips","flips",30,1200],["Collect 5000 coins","coins",5000,2500],["Win 15 races","wins",15,3000],["Drive 25000 m","dist",25000,4000],["Reach Level 25","lv",25,5000],["Reach Level 50","lv",50,15000]];
+const QUESTS=[["Collect 300 coins","coins",300,100],["Drive 3000 m in total","dist",3000,250],["Do 5 flips","flips",5,200],["Reach Level 5","lv",5,300],["Win 3 races","wins",3,400],["Refuel 15 times","fuels",15,200],["Play 15 runs","runs",15,300],["Reach Level 10","lv",10,800],["Do 30 flips","flips",30,1200],["Collect 5000 coins","coins",5000,2500],["Win 15 races","wins",15,3000],["Drive 25000 m","dist",25000,4000],["Reach Level 25","lv",25,5000],["Reach Level 50","lv",50,15000],
+["Play 5 runs","runs",5,50,1],["Collect 5 diamonds","dia",5,100,1],["Do 10 flips","flips",10,100,1],["Collect 20 diamonds","dia",20,200,1],["Collect 1000 coins","coins",1000,200,1],["Drive 8000 m total","dist",8000,200,1],["Collect 60 diamonds","dia",60,300,1],["Play 40 runs","runs",40,300,1],["Do 60 flips","flips",60,300,1],["Refuel 60 times","fuels",60,300,1],["Win 8 races","wins",8,400,1],["Collect 150 diamonds","dia",150,500,1],["Play 100 runs","runs",100,500,1],["Collect 10000 coins","coins",10000,500,1],["Reach Level 15","lv",15,500,1],["Do 200 flips","flips",200,700,1],["Collect 400 diamonds","dia",400,1000,1],["Drive 50000 m total","dist",50000,1000,1],["Reach Level 35","lv",35,1000,1],["Win 30 races","wins",30,1500,1],["Drive 150000 m total","dist",150000,2000,1],["Reach Level 75","lv",75,2000,1]];
 const sv=k=>k==="lv"?save.level:save.st[k];
 const PPM=28,MAXUP=10;
-const DEF=()=>({v:4,name:"",level:1,coins:300,dia:4,car:0,cars:[0],wheel:0,wheels:[0],map:0,maps:[0],mode:"climb",up:{engine:1,speed:1,shock:1,fuel:1,grip:1,eff:1,air:1,magnet:1,boost:1},best:{},st:{coins:0,dist:0,flips:0,wins:0,fuels:0,runs:0,clears:0},claimed:[]});
+const DEF=()=>({v:4,name:"",level:1,coins:300,dia:4,car:0,cars:[0],wheel:0,wheels:[0],map:0,maps:[0],mode:"climb",up:{engine:1,speed:1,shock:1,fuel:1,grip:1,eff:1,air:1,magnet:1,boost:1},best:{},st:{coins:0,dist:0,flips:0,wins:0,fuels:0,runs:0,clears:0,dia:0},claimed:[]});
 let save=DEF();
 try{const p=JSON.parse(localStorage.getItem("hcr_v4")||localStorage.getItem("hcr_v3"));if(p){if(!p.v){p.car=0;p.cars=[0]}save={...DEF(),...p,v:4,up:{...DEF().up,...p.up},st:{...DEF().st,...p.st}}}}catch(e){}
 const persist=()=>{try{localStorage.setItem("hcr_v4",JSON.stringify(save))}catch(e){}};
@@ -247,6 +248,9 @@ $("bMode").onclick=()=>{save.mode=save.mode==="race"?"climb":"race";persist();re
 
 /* Panels */
 const walTxt=()=>`Level ${save.level} · ${fmt(save.coins)} · 💎 ${save.dia}`;
+const dp=p=>Math.max(2,Math.min(2000,Math.round(p/65)));
+function ownD(k,i,p){if(save[k].includes(i))return true;const d=dp(p);if(save.dia<d){toast("Not enough 💎");return false}save.dia-=d;save[k].push(i);snd.coin();return true}
+const rw=q=>q[4]?`💎 ${q[3]}`:rs(q[3]);
 const CP=[100,200,300,500,750,1000,1500,2000,2500,3000,4000,5000,7500,10000,15000,20000,30000,50000,75000,100000];
 const DP=[10,20,30,50,75,100,150,200,300,500,750,1000,1500,2000,3000,5000,7500,10000,15000,25000];
 function classify(pts){if(pts.length<8)return"";let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const q of pts){x0=Math.min(x0,q.x);x1=Math.max(x1,q.x);y0=Math.min(y0,q.y);y1=Math.max(y1,q.y)}
@@ -278,21 +282,25 @@ document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{cur=b.dataset.p;
 $("pClose").onclick=()=>{$("panel").classList.add("hidden");renderHome()};
 function renderPanel(){
  let h=`<div class="wallet" id="wal">${walTxt()}</div>`,t="";
- if(cur==="garage"){t="🚗 Garage";h+=CARS.map((c,i)=>{const o=save.cars.includes(i),s=save.car==i;return `<div class="item ${s?"sel":""}">${carSVG(i,110,0)}<div class="ib"><b>${c.n}</b><small>⚡${c.pw} 🚀${c.mv} 🛞${c.gr} ⛽${c.fu}<br>${c.pk}</small></div><button class="bv" data-a="car" data-v="${i}" ${s?"disabled":""}>${s?"✔ Using":o?"Use":rs(c.p)}</button></div>`}).join("")}
- else if(cur==="up"){t="🔧 Upgrade Shop";h+="<h3>Engine & Parts</h3>"+UPG.map(([k,n,b],i)=>{const lv=save.up[k],c=Math.round(b*1.55**(lv-1)),mx=lv>=MAXUP;return `<div class="upgrade-row"><div class="upg-info">${n}<div class="upg-bars">${Array.from({length:MAXUP},(_,j)=>`<div class="pip ${j<lv?"a":""}"></div>`).join("")}</div></div><button class="bv" data-a="up" data-v="${i}" ${mx||save.coins<c?"disabled":""}>${mx?"MAX":rs(c)}</button></div>`}).join("")+"<h3 style='margin-top:12px'>Wheels</h3>"+WHEELS.map((w,i)=>{const o=save.wheels.includes(i),s=save.wheel==i;return `<div class="item ${s?"sel":""}"><div style="font-size:30px">🛞</div><div class="ib"><b>${w.n}</b><small>Size ${w.r} · Grip ${w.g}${w.ice?" · Ice spikes":""}</small></div><button class="bv" data-a="wheel" data-v="${i}" ${s?"disabled":""}>${s?"✔ On":o?"Fit":rs(w.p)}</button></div>`}).join("")}
- else if(cur==="maps"){t="🗺 Maps";h+=MAPS.map((m,i)=>{const o=save.maps.includes(i),s=save.map==i;return `<div class="item ${s?"sel":""}"><div class="sw" style="background:linear-gradient(${m.sky[0]} 50%,${m.ground} 50%)"></div><div class="ib"><b>${m.n}</b><small>${"💀".repeat(m.sk)} · Goal ${m.goal}m · Best ${save.best[i]||0}m${o?"":" · Needs Level "+m.req}</small></div><button class="bv" data-a="map" data-v="${i}" ${s||(!o&&save.level<m.req)?"disabled":""}>${s?"✔ Picked":o?"Select":save.level<m.req?"🔒 Lv "+m.req:rs(m.p)}</button></div>`}).join("")}
+ if(cur==="garage"){t="🚗 Garage";h+=CARS.map((c,i)=>{const o=save.cars.includes(i),s=save.car==i;return `<div class="item ${s?"sel":""}">${carSVG(i,110,0)}<div class="ib"><b>${c.n}</b><small>⚡${c.pw} 🚀${c.mv} 🛞${c.gr} ⛽${c.fu}<br>${c.pk}</small></div><button class="bv" data-a="car" data-v="${i}" ${s?"disabled":""}>${s?"✔ Using":o?"Use":rs(c.p)}</button>${o?"":`<button class="bv" data-a="carD" data-v="${i}" style="background:#22d3ee">💎 ${dp(c.p)}</button>`}</div>`}).join("")}
+ else if(cur==="up"){t="🔧 Upgrade Shop";h+="<h3>Engine & Parts</h3>"+UPG.map(([k,n,b],i)=>{const lv=save.up[k],c=Math.round(b*1.55**(lv-1)),mx=lv>=MAXUP;return `<div class="upgrade-row"><div class="upg-info">${n}<div class="upg-bars">${Array.from({length:MAXUP},(_,j)=>`<div class="pip ${j<lv?"a":""}"></div>`).join("")}</div></div><button class="bv" data-a="up" data-v="${i}" ${mx||save.coins<c?"disabled":""}>${mx?"MAX":rs(c)}</button>${mx?"":`<button class="bv" data-a="upD" data-v="${i}" style="background:#22d3ee" ${save.dia<dp(c)?"disabled":""}>💎 ${dp(c)}</button>`}</div>`}).join("")+"<h3 style='margin-top:12px'>Wheels</h3>"+WHEELS.map((w,i)=>{const o=save.wheels.includes(i),s=save.wheel==i;return `<div class="item ${s?"sel":""}"><div style="font-size:30px">🛞</div><div class="ib"><b>${w.n}</b><small>Size ${w.r} · Grip ${w.g}${w.ice?" · Ice spikes":""}</small></div><button class="bv" data-a="wheel" data-v="${i}" ${s?"disabled":""}>${s?"✔ On":o?"Fit":rs(w.p)}</button>${o?"":`<button class="bv" data-a="wheelD" data-v="${i}" style="background:#22d3ee">💎 ${dp(w.p)}</button>`}</div>`}).join("")}
+ else if(cur==="maps"){t="🗺 Maps";h+=MAPS.map((m,i)=>{const o=save.maps.includes(i),s=save.map==i;return `<div class="item ${s?"sel":""}"><div class="sw" style="background:linear-gradient(${m.sky[0]} 50%,${m.ground} 50%)"></div><div class="ib"><b>${m.n}</b><small>${"💀".repeat(m.sk)} · Goal ${m.goal}m · Best ${save.best[i]||0}m${o?"":" · Needs Level "+m.req}</small></div><button class="bv" data-a="map" data-v="${i}" ${s||(!o&&save.level<m.req)?"disabled":""}>${s?"✔ Picked":o?"Select":save.level<m.req?"🔒 Lv "+m.req:rs(m.p)}</button>${o?"":`<button class="bv" data-a="mapD" data-v="${i}" style="background:#22d3ee">💎 ${dp(m.p)}</button>`}</div>`}).join("")}
  else if(cur==="coins"||cur==="dia"){const c=cur==="coins";t=c?"🪙 Coin Store":"💎 Diamond Store";h+=`<div class="plist">`+(c?CP:DP).map(n=>`<div class="item"><div style="font-size:28px">${c?"🪙":"💎"}</div><div class="ib"><b>${n.toLocaleString()} ${c?"coins":"diamonds"}</b></div><button class="bv" data-a="${c?"buyc":"buyd"}" data-v="${n}">₹${(c?n/10:n/2).toLocaleString()}</button></div>`).join("")+`</div><small style="color:#64748b;display:block;text-align:center">Pay karo, phir code se unlock karo</small><div class="pad"></div>`}
- else{t="📜 Quests";h+=QUESTS.map((q,i)=>{const v=Math.min(sv(q[1]),q[2]),d=save.claimed.includes(i),ok=v>=q[2]&&!d;return `<div class="item"><div class="ib"><b>${q[0]}</b><div class="bar"><i style="width:${v/q[2]*100}%"></i></div><small>${v} / ${q[2]}</small></div><button class="bv" data-a="claim" data-v="${i}" ${ok?"":"disabled"}>${d?"✔ Done":ok?"Claim "+rs(q[3]):rs(q[3])}</button></div>`}).join("")}
+ else{t="📜 Quests";h+=QUESTS.map((q,i)=>{const v=Math.min(sv(q[1]),q[2]),d=save.claimed.includes(i),ok=v>=q[2]&&!d;return `<div class="item"><div class="ib"><b>${q[0]}</b><div class="bar"><i style="width:${v/q[2]*100}%"></i></div><small>${v} / ${q[2]}</small></div><button class="bv" data-a="claim" data-v="${i}" ${ok?"":"disabled"}>${d?"✔ Done":ok?"Claim "+rw(q):rw(q)}</button></div>`}).join("")}
  $("pTitle").textContent=t;$("pBody").innerHTML=h;bindPad();
 }
 function own(k,i,p){if(save[k].includes(i))return true;if(save.coins<p){toast("Not enough coins");return false}save.coins-=p;save[k].push(i);snd.coin();return true}
 $("pBody").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;const a=b.dataset.a,v=+b.dataset.v;
  if(a==="buyc"||a==="buyd"){payAsk(a,v);return}
- if(a==="car"){if(own("cars",v,CARS[v].p))save.car=v}
+ if(a==="carD"){if(ownD("cars",v,CARS[v].p))save.car=v}
+ else if(a==="wheelD"){if(ownD("wheels",v,WHEELS[v].p))save.wheel=v}
+ else if(a==="mapD"){if(ownD("maps",v,MAPS[v].p))save.map=v}
+ else if(a==="upD"){const u=UPG[v],lv=save.up[u[0]],d=dp(Math.round(u[2]*1.55**(lv-1)));if(lv<MAXUP&&save.dia>=d){save.dia-=d;save.up[u[0]]++;snd.coin()}}
+ else if(a==="car"){if(own("cars",v,CARS[v].p))save.car=v}
  else if(a==="wheel"){if(own("wheels",v,WHEELS[v].p))save.wheel=v}
  else if(a==="map"){if(own("maps",v,MAPS[v].p))save.map=v}
  else if(a==="up"){const u=UPG[v],lv=save.up[u[0]],c=Math.round(u[2]*1.55**(lv-1));if(lv<MAXUP&&save.coins>=c){save.coins-=c;save.up[u[0]]++;snd.coin()}}
- else if(a==="claim"){save.coins+=QUESTS[v][3];save.claimed.push(v);snd.bonus()}
+ else if(a==="claim"){if(QUESTS[v][4])save.dia+=QUESTS[v][3];else save.coins+=QUESTS[v][3];save.claimed.push(v);snd.bonus()}
  persist();renderPanel()};
 
 /* Race start / end */
@@ -379,7 +387,7 @@ function update(dt){
  if(race){const base=Math.min(330+save.map*25+save.level*5,900);let ahead=0;for(const r of ai){const sl=(H(r.x+2)-H(r.x-2))/4,tg=Math.max(160,Math.min(base*1.5,base*r.k+sl*260));r.v+=(tg-r.v)*Math.min(1,dt*2);r.x+=r.v*dt;if(r.x>car.x)ahead++;aiD=Math.max(aiD,(r.x-150)/PPM)}
   $("hudLevelName").textContent=`🏁 ${ahead+1}/${ai.length+1}`}
  else $("hudLevelName").textContent=`Lv ${save.level} · ${L.n}`;
- for(const it of items){if(it.got)continue;if(Math.hypot(it.x-car.x,it.y-car.y)<44+P.R+P.mag){it.got=true;if(it.t==="c"){runCoins+=P.cv;save.st.coins+=P.cv;snd.coin()}else if(it.t==="d"){save.dia++;runDia++;snd.bonus();toast("💎 +1")}else{fuel=Math.min(maxFuel,fuel+45);save.st.fuels++;snd.fuel();toast("⛽ REFUELED!")}}}
+ for(const it of items){if(it.got)continue;if(Math.hypot(it.x-car.x,it.y-car.y)<44+P.R+P.mag){it.got=true;if(it.t==="c"){runCoins+=P.cv;save.st.coins+=P.cv;snd.coin()}else if(it.t==="d"){save.dia++;save.st.dia++;runDia++;snd.bonus();toast("💎 +1")}else{fuel=Math.min(maxFuel,fuel+45);save.st.fuels++;snd.fuel();toast("⛽ REFUELED!")}}}
  for(const p of parts){p.x+=p.vx*dt;p.y+=p.vy*dt;p.l-=dt}parts=parts.filter(p=>p.l>0);
  if(race&&dist>=goal)endRun(true);
  else if(!race&&dist>=nextMile){const bn=100*(save.map+1)+20*save.level;runCoins+=bn;save.level++;save.st.clears++;nextMile+=goal;$("hudGoal").textContent=nextMile;snd.win();toast(`🏁 LEVEL ${save.level}! +${bn}`)}
