@@ -5,7 +5,7 @@
 <style>
 :root{color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-html,body{height:100%;width:100%;overflow:hidden;background:#111827;color:#fff;font-family:'Segoe UI',Tahoma,Verdana,sans-serif}
+html,body{height:100%;width:100%;overflow:hidden;overscroll-behavior:none;position:fixed;inset:0;background:#111827;color:#fff;font-family:'Segoe UI',Tahoma,Verdana,sans-serif}
 #gc{position:relative;width:100%;height:100%;overflow:hidden}
 canvas{display:block;width:100%;height:100%}
 .hidden{display:none!important}
@@ -60,7 +60,7 @@ h3{margin:4px 0 8px;font-size:15px;color:#cbd5e1}
 .bv:disabled{background:#475569;color:#94a3b8}
 .stat{background:#0f172a;padding:7px 14px;border-radius:12px;font-weight:700;border:1px solid #334155;color:#fde047;margin:4px auto;width:fit-content}
 .ra{display:flex;gap:10px;margin-top:12px}
-.plist{max-height:40vh;overflow-y:auto;touch-action:pan-y}.pad{height:24vh;min-height:110px;touch-action:none}.chip{cursor:pointer}
+.card,.plist{overscroll-behavior:contain}.plist{max-height:40vh;overflow-y:auto;touch-action:pan-y}.pad{height:24vh;min-height:110px;touch-action:none}.chip{cursor:pointer}
 </style></head><body>
 <div id="gc">
 <canvas id="gameCanvas"></canvas>
@@ -136,6 +136,7 @@ h3{margin:4px 0 8px;font-size:15px;color:#cbd5e1}
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
+document.addEventListener("touchmove",e=>{if(!e.target.closest(".card"))e.preventDefault()},{passive:false});
 const MAPS=[
 ["Countryside",500,980,.92,75,.0042,18,"#38bdf8","#bae6fd","#65a30d","#3f6212","#22c55e",155,0,1,1,1],
 ["Desert Dunes",700,980,.85,100,.005,22,"#f97316","#fde68a","#d97706","#92400e","#fbbf24",165,600,3,2,1.05],
