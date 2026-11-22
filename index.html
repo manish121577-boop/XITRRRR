@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Hill Climb Racing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&display=swap">
 <style>
 :root{color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;touch-action:manipulation}
@@ -17,7 +18,7 @@ button{font-family:inherit;cursor:pointer}
 #fuelBar{height:100%;width:100%;background:linear-gradient(90deg,#ef4444,#f59e0b,#22c55e)}
 .hb{pointer-events:auto;background:rgba(15,23,42,.85);color:#fff;border:2px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 11px;font-weight:700;font-size:13px}
 #controls{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:16px;right:16px;display:flex;justify-content:space-between;pointer-events:none;z-index:15}
-.pedal{pointer-events:auto;width:92px;height:112px;border-radius:16px;border:3px solid rgba(255,255,255,.35);color:#fff;font-weight:900;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.45)}
+.pedal{pointer-events:auto;width:calc(92px*var(--ps,1));height:calc(112px*var(--ps,1));border-radius:16px;border:3px solid rgba(255,255,255,.35);color:#fff;font-weight:900;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.45)}
 .pedal span{font-size:26px;margin-bottom:4px}
 .pb{background:linear-gradient(180deg,#ef4444,#991b1b)}.pg{background:linear-gradient(180deg,#22c55e,#15803d)}
 .pedal.pressed{transform:scale(.92) translateY(4px);filter:brightness(1.25)}
@@ -61,8 +62,22 @@ h3{margin:4px 0 8px;font-size:15px;color:#cbd5e1}
 .stat{background:#0f172a;padding:7px 14px;border-radius:12px;font-weight:700;border:1px solid #334155;color:#fde047;margin:4px auto;width:fit-content}
 .ra{display:flex;gap:10px;margin-top:12px}
 .card,.plist{overscroll-behavior:contain}.plist{max-height:40vh;overflow-y:auto;touch-action:pan-y}.pad{height:24vh;min-height:110px;touch-action:none}.chip{cursor:pointer}
+#splash{position:absolute;inset:0;z-index:100;background:radial-gradient(circle at 50% 40%,#0b1b3a,#02030a 70%);display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .7s;overflow:hidden;padding:16px}
+#splash.out{opacity:0;pointer-events:none}
+#splash:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(34,211,238,.07) 0 2px,transparent 2px 4px);animation:scn 3s linear infinite}
+#splash:after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#22d3ee;box-shadow:0 0 20px 5px #22d3ee;animation:swp 2.2s ease-in-out infinite}
+@keyframes swp{to{top:100%}}@keyframes scn{to{background-position:0 40px}}
+@keyframes pop{0%{transform:scale(1.6);opacity:0;filter:blur(12px)}100%{transform:none;opacity:1;filter:none}}
+@keyframes flw{to{background-position:300% 0}}
+@keyframes gl{0%,88%,100%{transform:none}90%{transform:translate(-5px,1px) skewX(10deg)}93%{transform:translate(5px,-1px) skewX(-10deg)}96%{transform:translate(-2px,0)}}
+.sw{position:relative;z-index:2;width:100%;animation:pop 1.1s ease-out both}
+.stt{font-family:Orbitron,'Segoe UI',Impact,sans-serif;font-weight:800;letter-spacing:.25em;color:#67e8f9;font-size:min(4.6vw,32px);text-shadow:0 0 12px #22d3ee}
+.stb{display:block;width:max-content;margin:14px auto 0;font-family:Orbitron,'Segoe UI',Impact,sans-serif;font-weight:900;font-size:min(6.6vw,60px);letter-spacing:.02em;white-space:nowrap;line-height:1.1;text-transform:uppercase;color:#e0f2fe;text-shadow:0 0 8px #22d3ee,0 0 22px #22d3ee,0 0 40px #a855f7;animation:neo 2s ease-in-out infinite alternate,gl 2.4s infinite}
+@keyframes neo{to{color:#a5f3fc;text-shadow:0 0 12px #22d3ee,0 0 30px #a855f7,0 0 55px #ef4444}}
+.stl{margin:18px auto 0;width:min(260px,70%);height:3px;background:linear-gradient(90deg,transparent,#22d3ee,#a855f7,transparent);box-shadow:0 0 14px #22d3ee}
 </style></head><body>
 <div id="gc">
+<div id="splash"><div class="sw"><div class="stb">WELCOME IN</div><div class="stb">TESLA INDUSTRY</div><div class="stl"></div></div></div>
 <canvas id="gameCanvas"></canvas>
 <div id="hud" class="hidden">
  <div class="hl">
@@ -115,6 +130,7 @@ h3{margin:4px 0 8px;font-size:15px;color:#cbd5e1}
    <button class="sb" data-p="maps">🗺 Maps</button>
    <button class="sb" id="bMode"></button>
    <button class="sb" data-p="quests">📜 Quests<i id="qB"></i></button>
+   <button class="sb" data-p="settings">⚙ Setting</button>
   </div>
  </div>
 </div>
@@ -137,6 +153,10 @@ h3{margin:4px 0 8px;font-size:15px;color:#cbd5e1}
 (()=>{
 const $=id=>document.getElementById(id);
 document.addEventListener("touchmove",e=>{if(!e.target.closest(".card"))e.preventDefault()},{passive:false});
+setTimeout(()=>{const sp=$("splash");if(!sp)return;sp.classList.add("out");setTimeout(()=>sp.remove(),800)},4800);
+$("splash").onclick=()=>{$("splash").classList.add("out")};
+function fitSplash(){const sp=$("splash");if(!sp)return;const els=[...sp.querySelectorAll(".stb")],mw=sp.clientWidth*.88;let fs=Math.min(64,sp.clientWidth*.12);els.forEach(e=>e.style.fontSize=fs+"px");while(fs>10&&Math.max(...els.map(e=>e.offsetWidth))>mw){fs-=1;els.forEach(e=>e.style.fontSize=fs+"px")}}
+fitSplash();addEventListener("resize",fitSplash);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitSplash);
 const MAPS=[
 ["Countryside",500,980,.92,75,.0042,18,"#38bdf8","#bae6fd","#65a30d","#3f6212","#22c55e",155,0,1,1,1],
 ["Desert Dunes",700,980,.85,100,.005,22,"#f97316","#fde68a","#d97706","#92400e","#fbbf24",165,600,3,2,1.05],
@@ -203,6 +223,7 @@ const DEF=()=>({v:4,name:"",level:1,coins:300,dia:4,car:0,cars:[0],wheel:0,wheel
 let save=DEF();
 try{const p=JSON.parse(localStorage.getItem("hcr_v4")||localStorage.getItem("hcr_v3"));if(p){if(!p.v){p.car=0;p.cars=[0]}save={...DEF(),...p,v:4,up:{...DEF().up,...p.up},st:{...DEF().st,...p.st}}}}catch(e){}
 const persist=()=>{try{localStorage.setItem("hcr_v4",JSON.stringify(save))}catch(e){}};
+save.set={sfx:true,music:true,vib:true,pedal:1,...(save.set||{})};
 const fmt=c=>`🪙 ${c.toLocaleString()}`,rs=p=>`🪙 ${p.toLocaleString()}`;
 const CL={W:"#bae6fd",K:"#111827",G:"#9ca3af",F:"#fb923c",Y:"#fde047",D:"rgba(0,0,0,.3)"};
 const carSVG=(ci,w=220,wi=0,col)=>{const c=CARS[ci],b0=c.fixw||WHEELS[wi].r,a=b0+c.ra,b=b0+c.rf,k=col||c.c;
@@ -218,6 +239,16 @@ bonus(){this.tone(580,"triangle",.12,.15,880);setTimeout(()=>this.tone(880,"tria
 crash(){this.tone(130,"sawtooth",.35,.2,38)},
 win(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>this.tone(f,"triangle",.22,.15),i*110))}};
 
+snd.mute=!save.set.sfx;$("btnSound").textContent=snd.mute?"🔇":"🔊";
+const mus={t:null,i:0,pat:[220,262,330,262,196,247,294,247,175,220,262,220,196,247,294,392],
+ on(){if(this.t||!save.set.music)return;snd.init();if(!snd.c)return;this.t=setInterval(()=>{if(snd.c.state==="suspended")snd.c.resume();const f=this.pat[this.i++%this.pat.length],t=snd.c.currentTime,o=snd.c.createOscillator(),g=snd.c.createGain();o.type="triangle";o.frequency.value=f;g.gain.setValueAtTime(.045,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);o.connect(g);g.connect(snd.c.destination);o.start(t);o.stop(t+.24)},260)},
+ off(){clearInterval(this.t);this.t=null}};
+const PED=[.85,1,1.2];
+const applySet=()=>document.documentElement.style.setProperty("--ps",save.set.pedal);applySet();
+async function shareApp(){const url="https://claude.ai/artifact/MMr6xwjNyoYgo3m3yUf9V6",text="🏎 Tesla Industry Hill Climb Racing khelo! "+url;
+ try{if(navigator.share){await navigator.share({title:"Tesla Industry Hill Climb Racing",text,url});return}}catch(e){return}
+ try{await navigator.clipboard.writeText(url);toast("Link copied!")}catch(e){}
+ window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
 /* Canvas */
 const cv=$("gameCanvas"),cx=cv.getContext("2d");let W=1,Hh=1;
 function resize(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;Hh=innerHeight;cv.width=W*d;cv.height=Hh*d;cx.setTransform(d,0,0,d,0,0)}
@@ -234,7 +265,7 @@ const show=id=>["login","start","home"].forEach(s=>$(s).classList.toggle("hidden
 $("lCar").innerHTML=carSVG(7,260,0);$("nameIn").value=save.name;
 $("bLogin").onclick=()=>{save.name=$("nameIn").value.trim().slice(0,14)||"Driver";persist();showStart()};
 function showStart(){$("sCar").innerHTML=carSVG(save.car,260,save.wheel);$("sName").textContent="👤 "+save.name;show("start")}
-$("bStart").onclick=()=>{snd.init();renderHome();show("home")};
+$("bStart").onclick=()=>{snd.init();mus.on();renderHome();show("home")};
 $("bSwitch").onclick=()=>show("login");
 function claimable(){return QUESTS.filter((q,i)=>!save.claimed.includes(i)&&sv(q[1])>=q[2]).length}
 function renderHome(){
@@ -286,6 +317,8 @@ function renderPanel(){
  if(cur==="garage"){t="🚗 Garage";h+=CARS.map((c,i)=>{const o=save.cars.includes(i),s=save.car==i;return `<div class="item ${s?"sel":""}">${carSVG(i,110,0)}<div class="ib"><b>${c.n}</b><small>⚡${c.pw} 🚀${c.mv} 🛞${c.gr} ⛽${c.fu}<br>${c.pk}</small></div><button class="bv" data-a="car" data-v="${i}" ${s?"disabled":""}>${s?"✔ Using":o?"Use":rs(c.p)}</button>${o?"":`<button class="bv" data-a="carD" data-v="${i}" style="background:#22d3ee">💎 ${dp(c.p)}</button>`}</div>`}).join("")}
  else if(cur==="up"){t="🔧 Upgrade Shop";h+="<h3>Engine & Parts</h3>"+UPG.map(([k,n,b],i)=>{const lv=save.up[k],c=Math.round(b*1.55**(lv-1)),mx=lv>=MAXUP;return `<div class="upgrade-row"><div class="upg-info">${n}<div class="upg-bars">${Array.from({length:MAXUP},(_,j)=>`<div class="pip ${j<lv?"a":""}"></div>`).join("")}</div></div><button class="bv" data-a="up" data-v="${i}" ${mx||save.coins<c?"disabled":""}>${mx?"MAX":rs(c)}</button>${mx?"":`<button class="bv" data-a="upD" data-v="${i}" style="background:#22d3ee" ${save.dia<dp(c)?"disabled":""}>💎 ${dp(c)}</button>`}</div>`}).join("")+"<h3 style='margin-top:12px'>Wheels</h3>"+WHEELS.map((w,i)=>{const o=save.wheels.includes(i),s=save.wheel==i;return `<div class="item ${s?"sel":""}"><div style="font-size:30px">🛞</div><div class="ib"><b>${w.n}</b><small>Size ${w.r} · Grip ${w.g}${w.ice?" · Ice spikes":""}</small></div><button class="bv" data-a="wheel" data-v="${i}" ${s?"disabled":""}>${s?"✔ On":o?"Fit":rs(w.p)}</button>${o?"":`<button class="bv" data-a="wheelD" data-v="${i}" style="background:#22d3ee">💎 ${dp(w.p)}</button>`}</div>`}).join("")}
  else if(cur==="maps"){t="🗺 Maps";h+=MAPS.map((m,i)=>{const o=save.maps.includes(i),s=save.map==i;return `<div class="item ${s?"sel":""}"><div class="sw" style="background:linear-gradient(${m.sky[0]} 50%,${m.ground} 50%)"></div><div class="ib"><b>${m.n}</b><small>${"💀".repeat(m.sk)} · Goal ${m.goal}m · Best ${save.best[i]||0}m${o?"":" · Needs Level "+m.req}</small></div><button class="bv" data-a="map" data-v="${i}" ${s||(!o&&save.level<m.req)?"disabled":""}>${s?"✔ Picked":o?"Select":save.level<m.req?"🔒 Lv "+m.req:rs(m.p)}</button>${o?"":`<button class="bv" data-a="mapD" data-v="${i}" style="background:#22d3ee">💎 ${dp(m.p)}</button>`}</div>`}).join("")}
+ else if(cur==="settings"){t="⚙ Settings";const S2=save.set,row=(k,n)=>`<div class="item"><div class="ib"><b>${n}</b></div><button class="bv" data-a="set" data-k="${k}">${S2[k]?"ON":"OFF"}</button></div>`;
+ h+=row("sfx","🔊 Sound Effects")+row("music","🎵 Background Music")+row("vib","📳 Vibration")+`<div class="item"><div class="ib"><b>🎮 Pedal Size</b></div><button class="bv" data-a="ped">${["Small","Medium","Large"][PED.indexOf(S2.pedal)]||"Medium"}</button></div><div class="item"><div class="ib"><b>📤 Share App</b></div><button class="bv" data-a="share">Share</button></div><div class="item"><div class="ib"><b>🗑 Reset Progress</b><small>Sab data delete ho jayega</small></div><button class="bv" data-a="reset" style="background:#ef4444;color:#fff">Reset</button></div>`}
  else if(cur==="coins"||cur==="dia"){const c=cur==="coins";t=c?"🪙 Coin Store":"💎 Diamond Store";h+=`<div class="plist">`+(c?CP:DP).map(n=>`<div class="item"><div style="font-size:28px">${c?"🪙":"💎"}</div><div class="ib"><b>${n.toLocaleString()} ${c?"coins":"diamonds"}</b></div><button class="bv" data-a="${c?"buyc":"buyd"}" data-v="${n}">₹${(c?n/10:n/2).toLocaleString()}</button></div>`).join("")+`</div><small style="color:#64748b;display:block;text-align:center">Pay karo, phir code se unlock karo</small><div class="pad"></div>`}
  else{t="📜 Quests";h+=QUESTS.map((q,i)=>{const v=Math.min(sv(q[1]),q[2]),d=save.claimed.includes(i),ok=v>=q[2]&&!d;return `<div class="item"><div class="ib"><b>${q[0]}</b><div class="bar"><i style="width:${v/q[2]*100}%"></i></div><small>${v} / ${q[2]}</small></div><button class="bv" data-a="claim" data-v="${i}" ${ok?"":"disabled"}>${d?"✔ Done":ok?"Claim "+rw(q):rw(q)}</button></div>`}).join("")}
  $("pTitle").textContent=t;$("pBody").innerHTML=h;bindPad();
@@ -293,6 +326,10 @@ function renderPanel(){
 function own(k,i,p){if(save[k].includes(i))return true;if(save.coins<p){toast("Not enough coins");return false}save.coins-=p;save[k].push(i);snd.coin();return true}
 $("pBody").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;const a=b.dataset.a,v=+b.dataset.v;
  if(a==="buyc"||a==="buyd"){payAsk(a,v);return}
+ if(a==="set"){const k=b.dataset.k;save.set[k]=!save.set[k];if(k==="sfx"){snd.mute=!save.set.sfx;$("btnSound").textContent=snd.mute?"🔇":"🔊"}if(k==="music")save.set.music?mus.on():mus.off();persist();renderPanel();return}
+ if(a==="ped"){save.set.pedal=PED[(PED.indexOf(save.set.pedal)+1)%3];applySet();persist();renderPanel();return}
+ if(a==="share"){shareApp();return}
+ if(a==="reset"){if(b.dataset.c){try{localStorage.removeItem("hcr_v4")}catch(e){}location.reload();return}b.dataset.c=1;b.textContent="Sure?";return}
  if(a==="carD"){if(ownD("cars",v,CARS[v].p))save.car=v}
  else if(a==="wheelD"){if(ownD("wheels",v,WHEELS[v].p))save.wheel=v}
  else if(a==="mapD"){if(ownD("maps",v,MAPS[v].p))save.map=v}
@@ -322,7 +359,7 @@ function startRace(){
 function endRun(win,reason){
  if(state!=="PLAYING")return;state="ENDED";snd.eng(0,false);
  const st=save.st;st.runs++;st.dist+=Math.floor(dist);let bonus=0;
- if(win){if(race){st.wins++;bonus=150*(save.map+1)+10*save.level;save.level++}else{st.clears++;bonus=100*(save.map+1)+20*save.level;save.level++}runCoins+=bonus;snd.win()}else snd.crash();
+ if(win){if(race){st.wins++;bonus=150*(save.map+1)+10*save.level;save.level++}else{st.clears++;bonus=100*(save.map+1)+20*save.level;save.level++}runCoins+=bonus;snd.win()}else{snd.crash();if(save.set.vib&&navigator.vibrate)try{navigator.vibrate(200)}catch(_){}}
  save.coins+=runCoins;save.best[save.map]=Math.max(save.best[save.map]||0,Math.floor(dist));persist();
  $("endTitle").textContent=win?(race?"🏆 YOU WON!":"🏁 LEVEL CLEAR!"):reason;
  $("endReason").textContent=win?`Bonus +${bonus} coins · Next: Level ${save.level}`:"Upgrade your ride and try again.";
@@ -338,7 +375,7 @@ function togglePause(){
  else if(state==="PAUSED"){paused=false;state="PLAYING";$("endOverlay").classList.add("hidden")}
 }
 $("btnPause").onclick=togglePause;
-$("btnSound").onclick=()=>{snd.mute=!snd.mute;$("btnSound").textContent=snd.mute?"🔇":"🔊";if(snd.mute)snd.eng(0,false)};
+$("btnSound").onclick=()=>{snd.mute=!snd.mute;save.set.sfx=!snd.mute;persist();$("btnSound").textContent=snd.mute?"🔇":"🔊";if(snd.mute)snd.eng(0,false)};
 
 /* Input */
 const setIn=(k,v)=>{input[k]=v;$(k==="gas"?"btnGas":"btnBrake").classList.toggle("pressed",v)};
