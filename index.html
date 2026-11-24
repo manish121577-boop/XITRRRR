@@ -77,7 +77,7 @@ details.br{border:1px solid var(--line);border-radius:10px;margin:6px 0;padding:
 <div class="card row"><span class="mut">Custom alarm</span><div><input type="time" id="nt"> <input id="nn" placeholder="Task title" style="width:150px"> <button class="pri" onclick="addSlot()">+ Add</button></div></div>
 <div class="card"><div class="row"><h2 id="rh"></h2><div><button onclick="resetTimes()">⟲ Reset times</button> <button onclick="resetTicks()">Reset ticks</button></div></div><div id="list"></div>
 <p class="mut">Alarms ring only while this page is open (keep screen on) — also set phone alarms for key slots.</p></div>
-<div class="card pk"><h2>💪 Fat-loss workout · 4:30 PM</h2><div class="mut">Warm-up 5 · Brisk walk/jog 15 · Squats + jumping jacks 12 · Plank + mountain climbers 8 · Stretch 10–20. Dard ho to rukk jao.</div></div>
+<div class="card pk"><h2>💪 Morning exercise · 5:30–6:00 AM</h2><div class="mut">Warm-up 3 · Brisk jog 10 · Squats + jumping jacks 7 · Plank + mountain climbers 5 · Stretch 5. Dard ho to rukk jao.</div></div>
 </section>
 
 <section id="ncert" hidden>
@@ -127,7 +127,7 @@ details.br{border:1px solid var(--line);border-radius:10px;margin:6px 0;padding:
 const $=id=>document.getElementById(id);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const today=()=>new Date().toLocaleDateString('en-CA');
-const WEEK=[["05:30","Wake up + 2 glasses water"],["05:45","Quick revision of yesterday (30 min)"],["06:30","Leave for coaching"],["07:00","Coaching class (till 2 PM)"],["14:45","Lunch + rest"],["15:30","Revise today's class notes"],["16:30","Workout (50 min)"],["17:30","Shower + snack"],["18:00","Evening self-study / NCERT"],["20:00","Dinner"],["20:45","Practice MCQs (30 min)"],["21:15","Backlog Destroyer (1 hr)"],["22:15","Daily revision (45 min)"],["23:00","Sleep"]];
+const WEEK=[["05:15","Wake up + 2 glasses water"],["05:30","💪 Exercise (30 min)"],["06:00","Quick revision of yesterday (30 min)"],["06:30","Leave for coaching"],["07:00","Coaching class (till 2 PM)"],["14:45","Lunch + rest"],["15:30","Revise today's class notes"],["16:30","🎉 Enjoy time"],["17:30","Shower + snack"],["18:00","Evening self-study / NCERT"],["20:00","Dinner"],["20:45","Practice MCQs (30 min)"],["21:15","Backlog Destroyer (1 hr)"],["22:15","Daily revision (45 min)"],["23:00","Sleep"]];
 const SUN=[["07:00","Wake up + water + walk"],["08:00","Study block 1 · backlog (1 hr)"],["09:00","Study block 2 · weekly mistakes (1 hr)"],["10:00","Break + breakfast"],["15:00","🎮 Gaming time (1 hr)"],["16:00","Evening walk + Monday targets"],["21:15","Light revision (30 min)"],["22:30","Sleep"]];
 let md=store.get('mode',new Date().getDay()===0?'sun':'week'),custom=store.get('custom',{week:[],sun:[]}),armed=store.get('arm',true);
 let state=store.get('day_'+today(),{ticks:{},water:0});
