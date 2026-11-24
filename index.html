@@ -1,224 +1,435 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NEET OS 2026 — Class 11 Command Center</title>
+<title>NEET OS 2026 // Class 11 – Manish Cyber Command</title>
 <style>
-:root{--bg:#050811;--card:#0d1426;--bd:#1e293b;--tx:#e2e8f0;--mut:#94a3b8;--cy:#22d3ee;--em:#34d399;--am:#fbbf24;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f1f5f9;--card:#fff;--bd:#cbd5e1;--tx:#0f172a;--mut:#475569;--cy:#0891b2;--em:#059669;--am:#b45309;color-scheme:light}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 system-ui,sans-serif;padding:12px;max-width:900px;margin:auto}
-h1{font-size:18px;margin:0}h2{font-size:15px;margin:0 0 8px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-#clock{font:700 24px monospace;color:var(--cy)}
+:root{--bg:#eef2f8;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#d5deea;--acc:#0891b2;--pk:#c026d3;--ok:#059669;--warn:#d97706;--bad:#dc2626;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#040711;--card:#0a1020;--ink:#e2e8f0;--mut:#94a3b8;--line:#1b2a44;--acc:#22d3ee;--pk:#e879f9;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;color-scheme:dark}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:40px;background-image:linear-gradient(color-mix(in srgb,var(--acc) 5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--pk) 5%,transparent) 1px,transparent 1px);background-size:30px 30px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--acc);padding:10px 14px}
+h1{font-size:16px;margin:0}h2{font-size:15px;margin:0 0 8px}h3{font-size:13px;margin:10px 0 4px;color:var(--pk)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+#clock{font:800 22px ui-monospace,monospace;color:var(--acc)}
 .mut{color:var(--mut);font-size:12px}
-.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0}
-button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:7px 11px;white-space:nowrap}
-button.on{background:var(--cy);color:#001;border-color:var(--cy);font-weight:700}
-.row{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--bd);border-radius:10px;margin-bottom:6px}
-.row.now{border-color:var(--em);box-shadow:0 0 0 1px var(--em)}
-.row.done .t{text-decoration:line-through;opacity:.5}
-.row .tm{font:600 12px monospace;color:var(--am);min-width:70px}
-.row .t{flex:1}
-.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cy),var(--em));width:0}
-input[type=number],input[type=time],input[type=text]{background:transparent;color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:6px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.hide{display:none}
-#modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:9;padding:16px}
-#modal .card{max-width:380px;text-align:center;border:2px solid var(--cy)}
-.ch{display:flex;gap:8px;padding:6px 4px;border-bottom:1px solid var(--bd)}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid var(--bd);padding:6px;text-align:left}
-</style></head><body>
+main{max-width:920px;margin:0 auto;padding:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.card.pk{border-color:color-mix(in srgb,var(--pk) 55%,transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+button,input,select{font:inherit;color:var(--ink)}
+button{border:1px solid var(--line);background:var(--card);padding:7px 11px;border-radius:10px;cursor:pointer}
+button.on,button.pri{background:linear-gradient(90deg,var(--acc),var(--pk));color:#04101a;border-color:transparent;font-weight:700}
+input,select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px}.tabs button{white-space:nowrap}
+.slot{display:flex;gap:10px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px}
+.slot.now{border-color:var(--acc);box-shadow:0 0 14px color-mix(in srgb,var(--acc) 45%,transparent)}
+.slot.done .t{text-decoration:line-through;opacity:.5}
+.tm{font:600 12px ui-monospace,monospace;color:var(--acc);min-width:62px}.t{flex:1}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--pk));width:0;transition:width .4s}
+.big{font-size:26px;font-weight:800}
+.chap{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.chap .n{flex:1}
+.badge{font-size:11px;padding:2px 7px;border-radius:99px;background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--warn)}.badge.g{background:color-mix(in srgb,var(--ok) 22%,transparent);color:var(--ok)}
+.q{padding:10px 0;border-bottom:1px solid var(--line)}.q label{display:block;padding:4px 6px;border-radius:8px}
+.q label.c{background:color-mix(in srgb,var(--ok) 25%,transparent)}.q label.w{background:color-mix(in srgb,var(--bad) 25%,transparent)}
+.gl{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}.gl.done span{text-decoration:line-through;opacity:.5}.gl span{flex:1}
+.f{font:12px ui-monospace,monospace;background:var(--bg);padding:4px 8px;border-radius:8px;margin:3px 0}
+#alarm{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+#alarm .card{max-width:360px;text-align:center;border:2px solid var(--acc);box-shadow:0 0 40px var(--pk)}
+.dg{display:block;width:100%;max-width:340px;margin:8px auto 0;background:var(--bg);border-radius:10px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:1.5;font:10px system-ui}.dg text{fill:currentColor;stroke:none}.dg text.a{fill:var(--acc);stroke:none}.dg text.p{fill:var(--pk);stroke:none}.dg .a{stroke:var(--acc)}.dg .p{stroke:var(--pk)}.dg .pa{fill:var(--pk);fill-opacity:.25;stroke:none}.dg circle.p{fill:var(--pk);fill-opacity:.35}.dg circle.a{fill:var(--acc);fill-opacity:.3}.dg rect.a{fill:var(--acc);fill-opacity:.15}
+.slot{flex-wrap:wrap}.slot .t{min-width:120px}.rg{color:var(--mut)}
+#fl{display:grid;grid-template-columns:120px 1fr;gap:10px}#fside{display:flex;flex-direction:column;gap:3px;max-height:75vh;overflow-y:auto;position:sticky;top:70px;align-self:start}#fside button{text-align:left;font-size:11px;padding:5px 6px}
+@media(max-width:560px){#fl{grid-template-columns:1fr}#fside{flex-direction:row;overflow-x:auto;position:static}#fside button{white-space:nowrap}}
+details.br{border:1px solid var(--line);border-radius:10px;margin:6px 0;padding:6px 8px}details.br summary{cursor:pointer;font-weight:700;color:var(--acc)}.lv{font-size:10px;font-weight:700;margin-right:6px;text-transform:uppercase}.f{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div id="alarm"><div class="card"><div style="font-size:42px">🚨</div><h2 id="aT">Alarm</h2><p class="mut">Manish, focus mode on! Class 11 target lock karo.</p>
+<button class="pri" onclick="stopAlarm()">✅ Dismiss &amp; Start</button> <button onclick="snooze()">💤 Snooze 5 min</button></div></div>
 
-<div id="modal"><div class="card"><div style="font-size:40px">⏰</div><h2 id="mT">Time!</h2><p class="mut">Focus karo, future doctor!</p>
-<button class="on" onclick="dismiss()">✅ Start Now</button> <button onclick="snooze()">💤 Snooze 5 min</button></div></div>
+<header><div class="row">
+<div><h1>⚡ NEET OS 2026 <span style="color:var(--acc)">// CLASS 11</span></h1><div class="mut">Manish HUD · Class 7 AM–2 PM · 80 kg → 70 kg · 1 hr backlog</div></div>
+<div style="text-align:right"><div id="clock">--:--:--</div><div id="active" class="mut">…</div><div id="cd" class="mut" style="color:var(--pk)"></div></div>
+</div></header>
 
-<div class="card top">
-<div><h1>⚕️ NEET OS 2026 <span style="color:var(--cy)">// Class 11</span></h1><div class="mut">Class 7 AM–2 PM • Backlog 1 hr • Workout • Revision</div></div>
-<div style="text-align:right"><div id="clock">--:--:--</div><div id="now" class="mut">...</div></div>
+<main>
+<div class="tabs" id="tabs">
+<button class="on" data-t="routine">⏱️ Routine &amp; Alarms</button>
+<button data-t="ncert">📚 NCERT Cl-11</button>
+<button data-t="cbt">📝 NEET Paper (+4/−1)</button>
+<button data-t="plan">🎯 Daily/Weekly/Monthly</button>
+<button data-t="tasks">✅ Study Tasks &amp; Timer</button>
+<button data-t="voice">🎙️ Voice Paper</button>
+<button data-t="vault">🧪 Formulas &amp; Tricks</button>
 </div>
-<div class="top" style="margin-bottom:6px">
-<button id="armBtn" onclick="toggleArm()">🔔 Auto-Alarm: ARMED</button>
-<button onclick="beep();show('Test Alarm')">Test Alarm</button>
+
+<section id="routine">
+<div class="grid" style="margin-bottom:12px">
+<div class="card"><div class="mut">DAILY XP</div><div class="big" id="pct">0%</div><div class="bar"><i id="pbar"></i></div></div>
+<div class="card"><div class="mut">WEIGHT (kg) → 70</div><input id="wt" type="number" step="0.1" style="width:90px;font-weight:700"><div class="mut" id="bmi" style="margin-top:4px"></div></div>
+<div class="card"><div class="mut">WATER · goal 14 glasses</div><div class="big" id="wc">0</div><button onclick="water(-1)">−</button> <button class="pri" onclick="water(1)">+</button></div>
+<div class="card pk"><div class="mut">BACKLOG SLOT</div><b>09:15–10:15 PM</b><div class="mut">10:15 PM daily revision</div></div>
 </div>
-
-<div class="tabs" id="tabs"></div>
-
-<!-- ROUTINE -->
-<section id="p-routine">
-<div class="grid">
-<div class="card"><div class="mut">DAILY PROGRESS</div><h2 id="pct">0%</h2><div class="bar"><i id="pbar"></i></div></div>
-<div class="card"><div class="mut">WEIGHT 80 → 70 kg</div>
-<input id="wt" type="number" step="0.1" value="80" style="width:80px" onchange="saveW()"> kg <span id="bmi" class="mut"></span></div>
-<div class="card"><div class="mut">WATER (14 glasses)</div><h2><span id="wc">0</span> / 14</h2>
-<button onclick="water(-1)">−</button> <button class="on" onclick="water(1)">+</button></div>
-</div>
-<div class="card">
-<div class="top"><div>
-<button id="m-wk" class="on" onclick="setMode('wk')">Mon–Sat</button>
-<button id="m-sn" onclick="setMode('sn')">Sunday</button></div>
-<button onclick="resetTicks()">Reset ticks</button></div>
-<div style="margin:10px 0" class="top"><div><input type="time" id="nt"> <input type="text" id="nn" placeholder="Custom alarm..." style="width:150px"> <button onclick="addSlot()">+ Add</button></div></div>
-<div id="list"></div></div>
-<div class="card"><h2>💪 Exercise (6:00 AM, roz)</h2>
-<div class="mut">Warm-up 5m • Brisk walk/jog 15m • Jumping jacks + squats 12m • Plank + mountain climbers 8m • Stretch & breathing 20m</div>
-<p class="mut">Chhoti shuruaat se karo, pain ho to ruk jao. Sleep 7 ghante zaroor.</p></div>
+<div class="card row"><div><button id="bw" class="on" onclick="mode('week')">Mon–Sat</button> <button id="bs" onclick="mode('sun')">🎮 Sunday</button></div>
+<div><button id="arm" onclick="toggleArm()"></button> <button onclick="ring('Test alarm')">🔊 Test + Voice</button></div></div>
+<div class="card row"><span class="mut">Custom alarm</span><div><input type="time" id="nt"> <input id="nn" placeholder="Task title" style="width:150px"> <button class="pri" onclick="addSlot()">+ Add</button></div></div>
+<div class="card"><div class="row"><h2 id="rh"></h2><div><button onclick="resetTimes()">⟲ Reset times</button> <button onclick="resetTicks()">Reset ticks</button></div></div><div id="list"></div>
+<p class="mut">Alarms ring only while this page is open (keep screen on) — also set phone alarms for key slots.</p></div>
+<div class="card pk"><h2>💪 Fat-loss workout · 4:30 PM</h2><div class="mut">Warm-up 5 · Brisk walk/jog 15 · Squats + jumping jacks 12 · Plank + mountain climbers 8 · Stretch 10–20. Dard ho to rukk jao.</div></div>
 </section>
 
-<!-- NCERT -->
-<section id="p-ncert" class="hide">
-<div class="card"><h2>📚 Class 11 NCERT — Studied Today</h2>
-<div class="mut">Chapter tick karo jo aaj padha. Total progress niche dikhega.</div>
-<div style="margin:8px 0"><button id="b-Biology" class="on" onclick="book('Biology')">🧬 Biology 19</button>
-<button id="b-Physics" onclick="book('Physics')">⚛️ Physics 14</button>
-<button id="b-Chemistry" onclick="book('Chemistry')">🧪 Chemistry 9</button></div>
-<div class="bar"><i id="nbar"></i></div><div id="ntxt" class="mut"></div>
-<div id="chl"></div></div>
+<section id="ncert" hidden>
+<div class="card"><div class="row"><h2>Studied today? Tick it</h2><div id="bookBtns"></div></div>
+<p class="mut">Revise badges: 1 · 3 · 7 · 15 day cycle. Ticked chapters feed the NEET paper tab.</p><div id="chaps"></div></div>
 </section>
 
-<!-- TIMETABLE -->
-<section id="p-tt" class="hide">
-<div class="card"><h2>🗓️ Subject Timetables (Backlog + Class 11)</h2>
-<div style="margin:8px 0"><button id="t-Physics" class="on" onclick="tt('Physics')">Physics</button>
-<button id="t-Chemistry" onclick="tt('Chemistry')">Chemistry</button>
-<button id="t-Biology" onclick="tt('Biology')">Biology</button></div>
-<div style="overflow-x:auto"><table id="ttb"></table></div>
-<p class="mut">Rule: Pehle Class 11 backlog khatam, phir Class 12. Roz PYQs + galtiyon ki copy.</p></div>
+<section id="cbt" hidden>
+<div class="card"><h2>📝 Custom NEET Paper · +4 / −1</h2>
+<div class="row"><div>Questions: <select id="qn"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><button class="pri" onclick="startTest()">Generate paper</button></div>
+<p class="mut" id="tnote">Questions come from chapters you ticked in NCERT tab.</p></div>
+<div class="card" id="paper" hidden></div>
 </section>
 
-<!-- GOALS -->
-<section id="p-goals" class="hide">
-<div class="card"><h2>🎯 Goals</h2>
-<div class="grid">
-<div><b>Daily</b><div id="g-d"></div></div>
-<div><b>Weekly</b><div id="g-w"></div></div>
-<div><b>Monthly</b><div id="g-m"></div></div></div></div>
+<section id="plan" hidden>
+<div id="goals"></div>
 </section>
 
-<section id="p-lab" class="hide"><div class="card"><h2>🧬 Diagrams, 3D Model & Formulas</h2>
-<div style="margin:8px 0"><button id="l-Physics" onclick="lab('Physics')">⚛️ Physics</button> <button id="l-Chemistry" onclick="lab('Chemistry')">🧪 Chemistry</button> <button id="l-Biology" onclick="lab('Biology')">🧬 Biology</button></div>
-<h2>📐 Diagram</h2><div id="svgbox"></div><p id="ex" class="mut"></p>
-<h2>🌀 3D Diagram (auto-rotate)</h2><canvas id="c3" style="width:100%;height:260px;border:1px solid var(--bd);border-radius:12px"></canvas><p id="c3t" class="mut"></p>
-<h2 id="fh"></h2><div id="fl"></div></div></section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<section id="tasks" hidden>
+<div class="card"><h2>✅ Study Tasks — kya padhna hai</h2>
+<div class="row" style="justify-content:flex-start"><select id="tb" onchange="tbChange()"></select><select id="tc" style="max-width:100%"></select><input id="tn" placeholder="Extra note (optional)" style="flex:1;min-width:140px"><input type="time" id="tt"><button class="pri" onclick="addTask()">+ Add</button></div>
+<p class="mut">Time set karoge to usi time par alarm bajega (page khula ho). ⟲ se time reset hota hai.</p></div>
+<div class="card"><div class="row"><h2>Task list <span id="tprog" class="mut"></span></h2><div><button onclick="tReset()">Reset ticks</button> <button onclick="tClear()">Clear all</button></div></div><div id="tlist"></div></div>
+<div class="card pk"><h2>⏳ Study Timer</h2>
+<div class="row" style="justify-content:flex-start"><div id="tmd" class="big" style="font-family:ui-monospace,monospace;color:var(--acc)">25:00</div><input id="tmin" type="number" min="1" value="25" style="width:70px"> min <button onclick="tmSet(+$('tmin').value||25)">Set</button> <button class="pri" id="tmgo" onclick="tmGo()">▶ Start</button> <button onclick="tmReset()">Reset</button></div>
+<div style="margin-top:8px"><button onclick="tmSet(25)">25 min</button> <button onclick="tmSet(45)">45 min</button> <button onclick="tmSet(60)">60 min</button></div></div>
+</section>
+
+<section id="voice" hidden>
+<div class="card"><h2>🎙️ Topic Voice Question Paper (+4/−1)</h2>
+<div class="row" style="justify-content:flex-start"><select id="vb" onchange="vbChange()"></select><select id="vc" style="max-width:100%"></select><select id="vn"><option>5</option><option selected>10</option><option>15</option></select><button class="pri" onclick="startVoice()">▶ Start voice paper</button></div>
+<p class="mut" id="vnote">Question bol kar sunaya jayega. Jawab mein A, B, C ya D bolo ya tap karo. “repeat”, “skip”, “stop” bhi bol sakte ho. Mic ke liye Chrome use karo.</p></div>
+<div class="card pk" id="vbox" hidden><div id="vq"></div><div class="row" style="margin-top:10px"><div id="vs" class="mut"></div><div><button onclick="askV()">🔁 Repeat</button> <button onclick="skipV()">⏭ Skip</button> <button id="vmic" onclick="micV()">🎤 Mic: ON</button> <button onclick="stopV()">⏹ Stop</button></div></div></div>
+</section>
+
+<section id="vault" hidden>
+<div class="card pk"><h2>🔎 Formula Search — Physics &amp; Chemistry</h2>
+<div class="row" style="justify-content:flex-start"><select id="fs" onchange="fChips()"><option value="">Physics + Chemistry</option><option>Physics</option><option>Chemistry</option></select><input id="fq" placeholder="naam likho: projectile, pH, bohr, pendulum..." style="flex:1;min-width:150px" onkeydown="if(event.key==='Enter')fSearch()"><button class="pri" onclick="fSearch()">🔎 Search</button></div>
+<div id="fchips" style="margin-top:8px"></div></div>
+<div id="fres"></div>
+<div class="card"><h2>📖 All Class 11 Formulas · Basic → Hard</h2><div id="fl"><div id="fside"></div><div id="fmain"></div></div></div>
+<div class="card pk"><h2>🧠 Memory Tricks</h2><div id="vt"></div></div>
+</section>
+</main>
+
 <script>
 const $=id=>document.getElementById(id);
-const store={g(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const WK=[["05:30","Wake up, water, freshen up"],["06:00","💪 Morning Exercise (40 min)"],["06:45","Get ready, travel to coaching"],["07:00","Coaching class (till 2 PM)"],["14:30","Lunch + 20 min rest"],["15:15","Class notes revision (same day)"],["16:30","Chemistry / Biology revision (1 hr)"],["17:45","Snack + fresh up"],["18:15","Physics practice (numericals)"],["19:30","Chemistry / Biology NCERT"],["20:30","Dinner"],["21:15","🔥 Backlog Destroyer (1 hr)"],["22:15","Daily flash revision (45 min)"],["23:00","Sleep"]];
-const SN=[["06:00","💪 Morning Exercise (40 min)"],["08:00","📖 Study — ONLY 2 hours (backlog + weekly mistakes)"],["10:00","Study over — free time"],["15:00","🎮 Gaming time (1 hr)"],["16:00","Evening walk"],["16:30","Plan Monday targets"],["22:00","Sleep"]];
-let mode=(new Date().getDay()===0)?'sn':'wk';
-let custom=store.g('custom',[]);
-const day=()=>new Date().toDateString();
-let st=store.g('state',{});if(st.day!==day())st={day:day(),done:{},water:0,w:st.w||80};
-const sv=()=>store.s('state',st);
-const slots=()=>(mode==='wk'?WK:SN).map(x=>({t:x[0],n:x[1]})).concat(custom).sort((a,b)=>a.t<b.t?-1:1);
-const mins=t=>{const[a,b]=t.split(':');return +a*60+ +b};
-function fmt(t){let[h,m]=t.split(':').map(Number);const p=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+p}
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const today=()=>new Date().toLocaleDateString('en-CA');
+const WEEK=[["05:30","Wake up + 2 glasses water"],["05:45","Quick revision of yesterday (30 min)"],["06:30","Leave for coaching"],["07:00","Coaching class (till 2 PM)"],["14:45","Lunch + rest"],["15:30","Revise today's class notes"],["16:30","Workout (50 min)"],["17:30","Shower + snack"],["18:00","Evening self-study / NCERT"],["20:00","Dinner"],["20:45","Practice MCQs (30 min)"],["21:15","Backlog Destroyer (1 hr)"],["22:15","Daily revision (45 min)"],["23:00","Sleep"]];
+const SUN=[["07:00","Wake up + water + walk"],["08:00","Study block 1 · backlog (1 hr)"],["09:00","Study block 2 · weekly mistakes (1 hr)"],["10:00","Break + breakfast"],["15:00","🎮 Gaming time (1 hr)"],["16:00","Evening walk + Monday targets"],["21:15","Light revision (30 min)"],["22:30","Sleep"]];
+let md=store.get('mode',new Date().getDay()===0?'sun':'week'),custom=store.get('custom',{week:[],sun:[]}),armed=store.get('arm',true);
+let state=store.get('day_'+today(),{ticks:{},water:0});
+const save=()=>store.set('day_'+today(),state);
+let oe=store.get('oe',{}),ov=store.get('ov',{}),hid=store.get('hid',{});const slots=()=>[...(md==='sun'?SUN:WEEK).map(x=>[ov[md+x[0]]||x[0],x[1],md+x[0]]).filter(x=>!hid[x[2]]),...custom[md].map((x,i)=>[x[0],x[1],'c:'+md+':'+i])].sort((a,b)=>a[0]<b[0]?-1:1);
+const endOf=(s,i)=>oe[s[i][2]]||(s[i+1]?s[i+1][0]:s[0][0]);
+const toMin=t=>+t.slice(0,2)*60+ +t.slice(3);
 function render(){
- const L=slots(),nowM=new Date().getHours()*60+new Date().getMinutes();
- let cur=-1;L.forEach((s,i)=>{if(mins(s.t)<=nowM)cur=i});
- $('list').innerHTML=L.map((s,i)=>{const k=mode+s.t+s.n,d=st.done[k];
-  return `<div class="row ${i===cur?'now':''} ${d?'done':''}"><span class="tm">${fmt(s.t)}</span><span class="t">${s.n}</span><input type="checkbox" ${d?'checked':''} onchange="tick('${k.replace(/'/g,"\\'")}',this.checked)"></div>`}).join('');
- const n=L.filter(s=>st.done[mode+s.t+s.n]).length,p=L.length?Math.round(n/L.length*100):0;
+ const s=slots(),d=new Date(),nm=d.getHours()*60+d.getMinutes();let act=-1;
+ s.forEach((x,i)=>{if(toMin(x[0])<=nm)act=i});
+ if(!(document.activeElement&&document.activeElement.classList.contains('tmi')))$('list').innerHTML=s.map((x,i)=>`<div class="slot ${i===act?'now':''} ${state.ticks[x[2]]?'done':''}"><input type="checkbox" ${state.ticks[x[2]]?'checked':''} onchange="tick('${x[2]}',this.checked)"><input type="time" class="tmi" value="${x[0]}" onchange="setSlotTime('${x[2]}',this.value)" style="width:104px"><span class="rg">to</span><input type="time" class="tmi" value="${endOf(s,i)}" onchange="setSlotEnd('${x[2]}',this.value)" style="width:104px"><span class="t">${x[1]}</span><button title="Reset time" onclick="setSlotTime('${x[2]}','')">⟲</button><button title="Hide" onclick="delSlot('${x[2]}')">✕</button></div>`).join('');
+ const done=s.filter(x=>state.ticks[x[2]]).length,p=s.length?Math.round(done/s.length*100):0;
  $('pct').textContent=p+'%';$('pbar').style.width=p+'%';
- $('now').textContent=cur>=0?'Now: '+L[cur].n:'Day not started';
+ $('active').textContent=act>=0?'Live: '+s[act][1]:'Before first slot';
+ const nx=s[act+1];$('cd').textContent=nx?'Next '+nx[0]+' · in '+(toMin(nx[0])-nm)+' min':'Last slot of the day';
+ $('rh').textContent=md==='sun'?'🎮 Sunday special':'Mon–Sat Class 11 routine';
+ $('bw').className=md==='week'?'on':'';$('bs').className=md==='sun'?'on':'';
+ $('arm').textContent='🔔 Auto-alarm: '+(armed?'ARMED':'OFF');$('wc').textContent=state.water;
 }
-function tick(k,v){st.done[k]=v;sv();render()}
-function resetTicks(){st.done={};sv();render()}
-function setMode(m){mode=m;$('m-wk').className=m==='wk'?'on':'';$('m-sn').className=m==='sn'?'on':'';render()}
-function addSlot(){const t=$('nt').value,n=$('nn').value.trim();if(!t||!n)return;custom.push({t,n});store.s('custom',custom);$('nn').value='';render()}
-function water(d){st.water=Math.max(0,Math.min(14,st.water+d));sv();$('wc').textContent=st.water}
-function saveW(){st.w=+$('wt').value;sv();bmi()}
-function bmi(){$('bmi').textContent='(target 70 kg, '+Math.max(0,(st.w-70)).toFixed(1)+' kg to go)'}
-
-// Alarm
-let armed=store.g('armed',true),lastFire='',snoozeAt=null,ctx;
-function toggleArm(){armed=!armed;store.s('armed',armed);$('armBtn').textContent='🔔 Auto-Alarm: '+(armed?'ARMED':'OFF')}
-function beep(){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();[0,.3,.6].forEach(d=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.value=.2;o.start(ctx.currentTime+d);o.stop(ctx.currentTime+d+.2)})}catch(e){}}
-let curTitle='';
-function show(t){curTitle=t;$('mT').textContent=t;$('modal').style.display='flex';if(navigator.vibrate)navigator.vibrate([300,150,300])}
-function dismiss(){$('modal').style.display='none'}
-function snooze(){dismiss();snoozeAt=Date.now()+300000}
-function tickClock(){
- const d=new Date();$('clock').textContent=d.toLocaleTimeString('en-IN');
- const hm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
- if(armed&&d.getSeconds()<2){const s=slots().find(x=>x.t===hm);const key=day()+hm;if(s&&lastFire!==key){lastFire=key;beep();show(fmt(s.t)+' — '+s.n)}}
- if(snoozeAt&&Date.now()>=snoozeAt){snoozeAt=null;beep();show('Snooze over: '+curTitle)}
- if(d.getSeconds()===0)render();
-}
-setInterval(tickClock,1000);
-
+function tick(k,v){state.ticks[k]=v;save();render()}
+function resetTicks(){state.ticks={};save();render()}
+function mode(m){md=m;store.set('mode',m);render()}
+function toggleArm(){armed=!armed;store.set('arm',armed);render()}
+function water(n){state.water=Math.max(0,state.water+n);save();render()}
+function addSlot(){const t=$('nt').value,n=$('nn').value.trim();if(!t||!n)return;custom[md].push([t,n]);store.set('custom',custom);$('nn').value='';render()}
+function bmi(){const w=parseFloat($('wt').value)||80;store.set('wt',w);$('bmi').textContent='Left to lose: '+Math.max(0,w-70).toFixed(1)+' kg'}
+$('wt').value=store.get('wt',80);$('wt').onchange=bmi;bmi();
+// alarm
+let actx,beepT,lastFire='',snoozeAt=null;
+function beep(){try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.25)}catch(e){}}
+function ring(t){$('aT').textContent=t;$('alarm').style.display='flex';clearInterval(beepT);beep();beepT=setInterval(beep,700);
+ try{navigator.vibrate&&navigator.vibrate([300,150,300]);speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance('Manish, '+t+'. Focus mode on!'))}catch(e){}}
+function stopAlarm(){$('alarm').style.display='none';clearInterval(beepT);try{speechSynthesis.cancel()}catch(e){}}
+function snooze(){const t=$('aT').textContent;stopAlarm();snoozeAt={t,at:Date.now()+300000}}
+setInterval(()=>{const d=new Date();$('clock').textContent=d.toLocaleTimeString('en-GB');const hm=d.toTimeString().slice(0,5);
+ if(armed&&lastFire!==today()+hm){const h=[...slots(),...tasks.filter(t=>t.t&&!t.x).map(t=>[t.t,t.n])].find(x=>x[0]===hm);if(h){lastFire=today()+hm;ring(h[1])}}
+ if(snoozeAt&&Date.now()>=snoozeAt.at){const t=snoozeAt.t;snoozeAt=null;ring(t)}
+ if(d.getSeconds()===0)render()},1000);
 // NCERT
-const NC={Biology:["The Living World","Biological Classification","Plant Kingdom","Animal Kingdom","Morphology of Flowering Plants","Anatomy of Flowering Plants","Structural Organisation in Animals","Cell: The Unit of Life","Biomolecules","Cell Cycle and Cell Division","Photosynthesis in Higher Plants","Respiration in Plants","Plant Growth and Development","Breathing and Exchange of Gases","Body Fluids and Circulation","Excretory Products and Elimination","Locomotion and Movement","Neural Control and Coordination","Chemical Coordination and Integration"],
-Physics:["Units and Measurements","Motion in a Straight Line","Motion in a Plane","Laws of Motion","Work, Energy and Power","System of Particles & Rotational Motion","Gravitation","Mechanical Properties of Solids","Mechanical Properties of Fluids","Thermal Properties of Matter","Thermodynamics","Kinetic Theory","Oscillations","Waves"],
-Chemistry:["Some Basic Concepts of Chemistry","Structure of Atom","Classification of Elements","Chemical Bonding","Thermodynamics","Equilibrium","Redox Reactions","Organic Chemistry: Basic Principles","Hydrocarbons"]};
-let nc=store.g('ncert',{}),bk='Biology';
-function book(b){bk=b;Object.keys(NC).forEach(x=>$('b-'+x).className=x===b?'on':'');drawNc()}
-function drawNc(){
- $('chl').innerHTML=NC[bk].map((c,i)=>{const k=bk+i;return `<label class="ch"><input type="checkbox" ${nc[k]?'checked':''} onchange="ncT('${k}',this.checked)"> ${i+1}. ${c}</label>`}).join('');
- const all=Object.keys(NC).reduce((a,b)=>a+NC[b].length,0),dn=Object.keys(nc).filter(k=>nc[k]).length;
- $('nbar').style.width=(dn/all*100)+'%';$('ntxt').textContent=dn+' / '+all+' chapters complete';
+const BOOKS={Biology:["The Living World","Biological Classification","Plant Kingdom","Animal Kingdom","Morphology of Flowering Plants","Anatomy of Flowering Plants","Structural Organisation in Animals","Cell: The Unit of Life","Biomolecules","Cell Cycle and Cell Division","Photosynthesis in Higher Plants","Respiration in Plants","Plant Growth and Development","Breathing and Exchange of Gases","Body Fluids and Circulation","Excretory Products and their Elimination","Locomotion and Movement","Neural Control and Coordination","Chemical Coordination and Integration"],
+Physics:["Units and Measurements","Motion in a Straight Line","Motion in a Plane","Laws of Motion","Work, Energy and Power","System of Particles and Rotational Motion","Gravitation","Mechanical Properties of Solids","Mechanical Properties of Fluids","Thermal Properties of Matter","Thermodynamics","Kinetic Theory","Oscillations","Waves"],
+Chemistry:["Some Basic Concepts of Chemistry","Structure of Atom","Classification of Elements and Periodicity","Chemical Bonding and Molecular Structure","Thermodynamics","Equilibrium","Redox Reactions","Organic Chemistry: Basic Principles and Techniques","Hydrocarbons"]};
+const FULL={B:'Biology',P:'Physics',C:'Chemistry'};
+let book='Biology',studied=store.get('studied',{});
+$('bookBtns').innerHTML=Object.keys(BOOKS).map(b=>`<button data-b="${b}" class="${b===book?'on':''}">${b} ${BOOKS[b].length}</button>`).join(' ');
+function drawChaps(){$('chaps').innerHTML=BOOKS[book].map((c,i)=>{const k=book+i,d=studied[k];let b='';
+ if(d){const days=Math.floor((new Date(today())-new Date(d))/864e5),due=[1,3,7,15].includes(days)||days>15;b=`<span class="badge ${due?'':'g'}">${days===0?'Studied today':days+'d ago'}${due&&days>0?' · revise':''}</span>`}
+ return `<label class="chap"><input type="checkbox" ${d?'checked':''} onchange="mark('${k}',this.checked)"><span class="n">${i+1}. ${c}</span>${b}</label>`}).join('')}
+function mark(k,v){if(v)studied[k]=today();else delete studied[k];store.set('studied',studied);drawChaps()}
+document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{book=b.dataset.b;document.querySelectorAll('[data-b]').forEach(x=>x.className=x===b?'on':'');drawChaps()});
+// QUESTION BANK [book,chapterIdx,q,correct,w1,w2,w3]
+const BANK=[
+["B",0,"Family lies in the hierarchy between","Genus and Order","Order and Class","Class and Phylum","Species and Genus"],
+["B",1,"Five-kingdom classification was proposed by","R.H. Whittaker","Linnaeus","Haeckel","Copeland"],
+["B",2,"Dominant phase in the life cycle of bryophytes is","Gametophyte","Sporophyte","Protonema only","Zygote"],
+["B",3,"True metamerism (segmentation) is first seen in","Annelida","Aschelminthes","Platyhelminthes","Cnidaria"],
+["B",7,"Site of protein synthesis in the cell is","Ribosome","Lysosome","Golgi body","Peroxisome"],
+["B",7,"'Powerhouse of the cell' is","Mitochondria","Chloroplast","Nucleus","Vacuole"],
+["B",8,"Most abundant protein in the animal world","Collagen","Insulin","Haemoglobin","Keratin"],
+["B",9,"DNA replication takes place in","S phase","G1 phase","G2 phase","M phase"],
+["B",10,"Primary CO2 acceptor in the C3 cycle","RuBP","PEP","OAA","PGA"],
+["B",11,"Net ATP gain in glycolysis per glucose","2","4","8","36"],
+["B",13,"Vital capacity equals","ERV + TV + IRV","TV + IRV","ERV + RV","TV + RV"],
+["B",14,"Pacemaker of the human heart","SA node","AV node","Bundle of His","Purkinje fibres"],
+["B",17,"Approx. resting membrane potential of a neuron","−70 mV","+70 mV","0 mV","−30 mV"],
+["P",0,"Dimensional formula of force","MLT⁻²","ML²T⁻²","MLT⁻¹","ML⁻¹T⁻²"],
+["P",1,"Area under a velocity–time graph gives","Displacement","Acceleration","Speed","Jerk"],
+["P",3,"SI unit of impulse is equivalent to that of","Momentum","Force","Energy","Power"],
+["P",4,"Work done by centripetal force on a body in circular motion","Zero","Positive","Negative","Infinite"],
+["P",6,"Escape velocity from Earth's surface","11.2 km/s","7.9 km/s","9.8 km/s","3 km/s"],
+["P",8,"Bernoulli's theorem is based on conservation of","Energy","Momentum","Mass only","Charge"],
+["P",10,"Internal energy change of an ideal gas in an isothermal process","Zero","Positive","Negative","Equal to heat only if adiabatic"],
+["P",12,"Time period of a simple pendulum depends on","Length and g","Mass of bob","Amplitude only","Material of bob"],
+["P",13,"Speed of sound is greatest in","Solids","Liquids","Gases","Vacuum"],
+["C",0,"Molecules in one mole of a substance","6.022 × 10²³","6.022 × 10²²","3.011 × 10²³","1.602 × 10⁻¹⁹"],
+["C",1,"Maximum electrons in the n = 3 shell","18","8","32","9"],
+["C",2,"Most electronegative element","Fluorine","Oxygen","Chlorine","Nitrogen"],
+["C",3,"Shape of NH₃ molecule","Trigonal pyramidal","Planar triangular","Tetrahedral","Linear"],
+["C",5,"pH of 0.01 M HCl","2","1","12","0.01"],
+["C",6,"Oxidation state of Mn in KMnO₄","+7","+6","+4","+2"],
+["C",7,"Hybridisation of carbon in ethene","sp²","sp³","sp","sp³d"],
+["C",8,"General formula of alkynes","CₙH₂ₙ₋₂","CₙH₂ₙ","CₙH₂ₙ₊₂","CₙHₙ"],
+["B",4,"Venation in monocot leaves is typically","Parallel","Reticulate","Pinnate reticulate","Palmate reticulate"],
+["B",5,"Vascular bundles in a dicot stem are","Open, conjoint and collateral","Closed and radial","Scattered and closed","Radial and open"],
+["B",6,"Respiratory organs of cockroach are","Tracheae","Book lungs","Gills","Malpighian tubules"],
+["B",12,"Hormone mainly promoting cell division","Cytokinin","Auxin","Ethylene","Abscisic acid"],
+["B",15,"Functional unit of the kidney","Nephron","Neuron","Alveolus","Villus"],
+["B",16,"Muscle contraction is explained by","Sliding filament theory","Lock and key model","Fluid mosaic model","Chemiosmotic theory"],
+["B",18,"Melatonin is secreted by","Pineal gland","Pituitary","Thyroid","Adrenal"],
+["P",2,"For a given speed, horizontal range is maximum at angle","45°","30°","60°","90°"],
+["P",5,"Moment of inertia of a thin ring (mass M, radius R) about its axis","MR²","½MR²","⅖MR²","⅔MR²"],
+["P",7,"Young's modulus is the ratio of","Longitudinal stress to strain","Shear stress to shear strain","Pressure to volumetric strain","Force to area"],
+["P",9,"SI unit of specific heat capacity","J kg⁻¹ K⁻¹","J K⁻¹","J kg⁻¹","W m⁻¹ K⁻¹"],
+["P",11,"Average kinetic energy of an ideal gas molecule depends on","Absolute temperature","Pressure only","Volume only","Molar mass"],
+["C",4,"Standard enthalpy of formation of an element in its standard state","Zero","+1 kJ/mol","−1 kJ/mol","Equal to bond enthalpy"]];
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let paper=[];
+function startTest(){
+ let pool=BANK.filter(q=>studied[FULL[q[0]]+q[1]]),note='Using chapters you ticked as studied.';
+ if(pool.length<5){pool=BANK;note='Tick more chapters in NCERT tab for a targeted paper — using full bank for now.'}
+ $('tnote').textContent=note;
+ paper=shuf(pool).slice(0,+$('qn').value).map(q=>({q:q[2],a:q[3],o:shuf(q.slice(3)),ch:BOOKS[FULL[q[0]]][q[1]]}));
+ $('paper').hidden=false;
+ $('paper').innerHTML=paper.map((p,i)=>`<div class="q"><b>Q${i+1}.</b> ${p.q} <span class="mut">(${p.ch})</span>${p.o.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('')}</div>`).join('')+`<div style="margin-top:12px"><button class="pri" onclick="submitTest()">Submit</button></div><div id="res"></div>`;
+ $('paper').scrollIntoView({behavior:'smooth'});
 }
-function ncT(k,v){nc[k]=v;store.s('ncert',nc);drawNc()}
+function submitTest(){let c=0,w=0,u=0;
+ paper.forEach((p,i)=>{const sel=document.querySelector(`input[name=q${i}]:checked`),labs=document.querySelectorAll(`input[name=q${i}]`);
+  labs.forEach((l,j)=>{const lb=l.parentElement;if(p.o[j]===p.a)lb.classList.add('c');l.disabled=true});
+  if(!sel)u++;else if(p.o[+sel.value]===p.a)c++;else{w++;sel.parentElement.classList.add('w')}});
+ const sc=c*4-w;$('res').innerHTML=`<h2 style="margin-top:12px">Score: ${sc} / ${paper.length*4}</h2><div class="mut">✅ ${c} correct (+${c*4}) · ❌ ${w} wrong (−${w}) · ⬜ ${u} skipped. Green = right answer, red = your wrong pick.</div>`}
+// PLANNER
+const DEF={d:["Attend full class 7–2","1 hr backlog (9:15 PM)","Workout 4:30 PM","30 MCQs of today's chapter"],w:["Finish 2 backlog chapters","Saturday mixed test","Sunday mistake notebook revision"],m:["Clear 8–10 backlog chapters","Weight: lose 1–2 kg safely","1 full-length mock test"]};
+let goals=store.get('goals',DEF);const GT={d:'📅 Daily goals',w:'🗓️ Weekly goals',m:'🏆 Monthly goals'};
+const gobj=g=>typeof g==='string'?{t:g,x:0}:g;
+function drawGoals(){$('goals').innerHTML=Object.keys(GT).map(k=>`<div class="card ${k==='m'?'pk':''}"><h2>${GT[k]}</h2>${goals[k].map(gobj).map((g,i)=>`<div class="gl ${g.x?'done':''}"><input type="checkbox" ${g.x?'checked':''} onchange="gToggle('${k}',${i},this.checked)"><span>${g.t}</span><button onclick="gDel('${k}',${i})">✕</button></div>`).join('')}
+<div class="row" style="margin-top:8px"><input id="gi-${k}" placeholder="New goal..." style="flex:1"><button class="pri" onclick="gAdd('${k}')">+ Add</button></div></div>`).join('')}
+function gSave(){store.set('goals',goals);drawGoals()}
+function gToggle(k,i,v){goals[k][i]={...gobj(goals[k][i]),x:v?1:0};gSave()}
+function gDel(k,i){goals[k].splice(i,1);gSave()}
+function gAdd(k){const v=$('gi-'+k).value.trim();if(!v)return;goals[k].push({t:v,x:0});gSave()}
+// VAULT
+const FORM=["Physics · v = u + at · s = ut + ½at² · v² = u² + 2as","Physics · F = ma · p = mv · Impulse = FΔt","Physics · W = Fs cosθ · KE = ½mv² · P = W/t","Physics · v_esc = √(2gR) = 11.2 km/s · g = GM/R²","Physics · T = 2π√(l/g) · v = fλ","Physics · Isothermal: ΔU = 0 · Adiabatic: Q = 0 · ΔU = Q − W","Chem · n = m/M · M = n/V · pH = −log[H⁺]","Chem · Max e⁻ in shell = 2n² · Rydberg: 1/λ = R(1/n₁² − 1/n₂²)","Chem · Kp = Kc(RT)^Δn · ΔG = ΔH − TΔS","Bio · Vital capacity = ERV + TV + IRV · TLC = VC + RV","Bio · Cardiac output = Stroke volume × Heart rate"];
+const TRICK=["Taxonomy order: <b>King Philip Came Over For Good Soup</b> (Kingdom, Phylum, Class, Order, Family, Genus, Species)","Periodic table 2nd period: <b>Li Be B C N O F Ne</b> — 'Little Beggars Can Not Order Fresh Newspapers'","VIBGYOR order of dispersion: Violet bends most, Red least","Glycolysis: 2 ATP used, 4 made → net 2 ATP + 2 NADH","Cranial nerves-style pegs: link each chapter with one diagram you redraw weekly","Biology first: ~50% of NEET marks — NCERT line by line, underline every example/exception"];
+$('vt').innerHTML=TRICK.map(t=>`<p>• ${t}</p>`).join('');
+// STUDY TASKS
+let tasks=store.get('tasks',[]);
+const tSave=()=>{store.set('tasks',tasks);drawTasks()};
+function chOpts(b,all){return `<option value="-1">${all}</option>`+(BOOKS[b]||[]).map((c,i)=>`<option value="${i}">${i+1}. ${c}</option>`).join('')}
+function tbChange(){$('tc').innerHTML=chOpts($('tb').value,'Full book / revision')}
+function vbChange(){$('vc').innerHTML=chOpts($('vb').value,'Full book (all topics)')}
+function taskInit(){const bs=Object.keys(BOOKS);$('tb').innerHTML=['All books',...bs].map(b=>`<option>${b}</option>`).join('');$('vb').innerHTML=[...bs,'All books'].map(b=>`<option>${b}</option>`).join('');tbChange();vbChange()}
+function addTask(){const b=$('tb').value,ci=+$('tc').value,note=$('tn').value.trim();
+ let n=b==='All books'?'Padhna: All books (Bio + Phy + Chem) revision':'Padhna: '+b+' – '+(ci>=0?BOOKS[b][ci]:'Full book');
+ if(note)n+=' · '+note;tasks.push({n,t:$('tt').value,x:0});$('tn').value='';tSave()}
+function drawTasks(){const o=tasks.map((t,i)=>({...t,i})).sort((a,b)=>(a.t||'99')<(b.t||'99')?-1:1);
+ $('tlist').innerHTML=o.length?o.map(t=>`<div class="gl ${t.x?'done':''}"><input type="checkbox" ${t.x?'checked':''} onchange="tTick(${t.i},this.checked)"><span>${t.n}</span><input type="time" value="${t.t||''}" onchange="tTime(${t.i},this.value)" style="width:110px"><button title="Reset time" onclick="tTime(${t.i},'')">⟲</button><button onclick="tDel(${t.i})">✕</button></div>`).join(''):'<p class="mut">Koi task nahi — upar se add karo.</p>';
+ $('tprog').textContent=tasks.length?'· '+tasks.filter(t=>t.x).length+'/'+tasks.length+' done':''}
+function tTick(i,v){tasks[i].x=v?1:0;tSave()}
+function tTime(i,v){tasks[i].t=v;tSave()}
+function tDel(i){tasks.splice(i,1);tSave()}
+function tReset(){tasks.forEach(t=>t.x=0);tSave()}
+function tClear(){tasks=[];tSave()}
+// TIMER
+let tm={s:1500,set:1500,run:false};
+function tmDraw(){$('tmd').textContent=String(Math.floor(tm.s/60)).padStart(2,'0')+':'+String(tm.s%60).padStart(2,'0');$('tmgo').textContent=tm.run?'⏸ Pause':'▶ Start'}
+function tmSet(m){tm.s=tm.set=Math.max(1,Math.round(m*60));tm.run=false;$('tmin').value=m;tmDraw()}
+function tmGo(){if(!tm.s)tm.s=tm.set;tm.run=!tm.run;tmDraw()}
+function tmReset(){tm.run=false;tm.s=tm.set;tmDraw()}
+setInterval(()=>{if(tm.run&&tm.s>0){tm.s--;if(tm.s===0){tm.run=false;ring('Study timer finished')}tmDraw()}},1000);
+// VOICE PAPER
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition,L='ABCD';
+let vp={qs:[],i:0,c:0,w:0,u:0,on:false,mic:!!SR,rec:null,wait:false,tries:0,ans:false},sayId=0;
+const VM=[['a','ay','eh','one','1','first'],['b','bee','be','two','to','too','2','second'],['c','see','sea','three','3','third'],['d','dee','four','for','4','fourth']];
+function say(t,cb){const id=++sayId;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-IN';u.rate=.95;let d=0;const f=()=>{if(!d){d=1;if(id===sayId&&cb)cb()}};u.onend=f;u.onerror=f;speechSynthesis.speak(u)}catch(e){cb&&cb()}}
+function startVoice(){const b=$('vb').value,ci=+$('vc').value;
+ let pool=BANK.filter(q=>(b==='All books'||FULL[q[0]]===b)&&(ci<0||q[1]===ci)),note='';
+ if(!pool.length){pool=BANK.filter(q=>FULL[q[0]]===b);note='Is chapter ke questions abhi bank mein nahi hain, isliye poori book se le raha hoon.'}
+ vp.qs=shuf(pool).slice(0,+$('vn').value).map(q=>({q:q[2],a:q[3],o:shuf(q.slice(3)),ch:BOOKS[FULL[q[0]]][q[1]]}));
+ Object.assign(vp,{i:0,c:0,w:0,u:0,on:true,ans:false});
+ $('vnote').textContent=note||(vp.qs.length+' questions · '+(SR?'mic ready':'is browser mein mic nahi, options tap karo'));
+ $('vbox').hidden=false;$('vmic').textContent='🎤 Mic: '+(vp.mic?'ON':'OFF');
+ say('Voice paper starting. Say A, B, C or D after each question, or tap. Plus four, minus one.',askV)}
+function askV(){if(!vp.on)return;if(vp.i>=vp.qs.length)return finishV();vp.tries=0;vp.ans=false;const p=vp.qs[vp.i];
+ $('vq').innerHTML=`<b>Q${vp.i+1}/${vp.qs.length}.</b> ${p.q}<div class="mut">${p.ch}</div>`+p.o.map((o,j)=>`<button style="display:block;width:100%;text-align:left;margin:5px 0" onclick="ansV(${j})"><b>${L[j]}.</b> ${o}</button>`).join('');
+ $('vs').textContent='✅ '+vp.c+' · ❌ '+vp.w+' · ⬜ '+vp.u+' · Score '+(vp.c*4-vp.w);
+ say('Question '+(vp.i+1)+'. '+p.q+'. '+p.o.map((o,j)=>'Option '+L[j]+', '+o+'.').join(' '),listenV)}
+function listenV(){if(!vp.on||vp.ans||!SR||!vp.mic)return;try{vp.rec&&vp.rec.abort()}catch(e){}
+ const r=new SR();vp.rec=r;r.lang='en-IN';r.maxAlternatives=3;vp.wait=true;
+ r.onresult=e=>{vp.wait=false;handleV([...e.results[0]].map(x=>x.transcript).join(' ').toLowerCase())};
+ r.onerror=()=>{};
+ r.onend=()=>{if(vp.wait&&vp.on&&!vp.ans){if(vp.tries++<3)setTimeout(listenV,300);else{vp.wait=false;$('vs').textContent+=' · mic ne suna nahi, option tap karo'}}};
+ try{r.start()}catch(e){}}
+function handleV(t){if(/repeat|again/.test(t))return askV();if(/skip|next/.test(t))return skipV();if(/stop|end|finish/.test(t))return stopV();
+ const w=t.replace(/option|answer|the/g,' ').split(/[^a-z0-9]+/).filter(Boolean);
+ for(const x of w){const j=VM.findIndex(m=>m.includes(x));if(j>=0)return ansV(j)}
+ say('Say A, B, C or D.',listenV)}
+function ansV(j){if(!vp.on||vp.ans)return;vp.ans=true;vp.wait=false;try{vp.rec&&vp.rec.abort()}catch(e){}
+ const p=vp.qs[vp.i],ok=p.o[j]===p.a;ok?vp.c++:vp.w++;
+ $('vs').textContent='✅ '+vp.c+' · ❌ '+vp.w+' · ⬜ '+vp.u+' · Score '+(vp.c*4-vp.w);
+ say(ok?'Correct. Plus 4.':'Wrong. Minus 1. Correct answer is option '+L[p.o.indexOf(p.a)]+', '+p.a+'.',()=>{vp.i++;askV()})}
+function skipV(){if(!vp.on||vp.ans)return;vp.wait=false;try{vp.rec&&vp.rec.abort()}catch(e){}vp.u++;vp.i++;askV()}
+function finishV(){vp.on=false;const t=vp.qs.length*4,s=vp.c*4-vp.w;
+ $('vq').innerHTML=`<h2>Score: ${s} / ${t}</h2><div class="mut">✅ ${vp.c} correct · ❌ ${vp.w} wrong · ⬜ ${vp.u} skipped</div>`;$('vs').textContent='';
+ say('Paper finished. Your score is '+s+' out of '+t+'. '+vp.c+' correct, '+vp.w+' wrong, '+vp.u+' skipped.')}
+function stopV(){sayId++;vp.wait=false;try{speechSynthesis.cancel();vp.rec&&vp.rec.abort()}catch(e){}if(vp.on)finishV()}
+function micV(){vp.mic=!vp.mic&&!!SR;$('vmic').textContent='🎤 Mic: '+(vp.mic?'ON':'OFF');if(!vp.mic){vp.wait=false;try{vp.rec&&vp.rec.abort()}catch(e){}}else listenV()}
+// ROUTINE TIME EDIT
+function setSlotTime(id,v){if(id.startsWith('c:')){const p=id.split(':');if(v)custom[p[1]][+p[2]][0]=v;store.set('custom',custom)}else{if(v)ov[id]=v;else{delete ov[id];delete oe[id];store.set('oe',oe)}store.set('ov',ov)}render()}
+function setSlotEnd(id,v){if(v)oe[id]=v;else delete oe[id];store.set('oe',oe);render()}
+function delSlot(id){if(id.startsWith('c:')){const p=id.split(':');custom[p[1]].splice(+p[2],1);store.set('custom',custom)}else{hid[id]=1;store.set('hid',hid)}render()}
+function resetTimes(){ov={};hid={};oe={};store.set('oe',oe);store.set('ov',ov);store.set('hid',hid);render()}
+// FORMULA SEARCH
+const A=(x,y,X,Y,c)=>{const t=Math.atan2(Y-y,X-x),h=6,a=.45;return `<path class='${c||'a'}' d='M${x} ${y}L${X} ${Y}M${X} ${Y}l${-h*Math.cos(t-a)} ${-h*Math.sin(t-a)}M${X} ${Y}l${-h*Math.cos(t+a)} ${-h*Math.sin(t+a)}'/>`};
+const T=(x,y,s,c)=>`<text x='${x}' y='${y}' class='${c||''}'>${s}</text>`;
+const D={
+vt:()=>`<path d='M30 120V15M30 120H225'/>${T(12,18,'v')}${T(212,134,'t')}<path class='pa' d='M30 120V90L190 35V120Z'/><path class='a' d='M30 90L190 35'/>${T(16,93,'u')}${T(192,32,'v')}${T(100,104,'s = area')}${T(70,56,'slope = a','p')}`,
+proj:()=>`<path d='M10 115H230'/><path class='a' d='M20 115Q117 -45 215 115'/>${A(20,115,52,88,'p')}${T(56,86,'u','p')}${T(36,111,'θ')}<path stroke-dasharray='3' d='M117 115V35'/>${T(121,80,'H')}${A(20,126,215,126)}${T(70,138,'R = u² sin2θ / g')}`,
+incl:()=>`<path d='M30 120H210V40Z'/><rect x='-14' y='-24' width='28' height='24' transform='translate(120 80) rotate(-24)'/>${A(120,68,120,115,'p')}${T(124,112,'mg','p')}${A(120,68,104,32)}${T(88,30,'N')}${A(120,68,88,82,'p')}${T(36,76,'mg sinθ','p')}${T(52,116,'θ')}`,
+circ:()=>`<circle cx='120' cy='70' r='45'/><circle cx='165' cy='70' r='4' class='a'/>${A(165,70,165,28,'p')}${T(170,32,'v','p')}${A(160,70,126,70)}${T(132,62,'a')}${T(135,84,'r')}${T(50,134,'F = mv²/r  (towards centre)')}`,
+pend:()=>`<path d='M90 15H150'/><path stroke-dasharray='3' d='M120 15V110'/><path d='M120 15L158 97'/><circle cx='158' cy='97' r='8' class='a'/>${A(158,105,158,135,'p')}${T(163,130,'mg','p')}${T(126,45,'θ')}${T(144,58,'L')}${T(14,50,'T = 2π√(L/g)')}`,
+spring:()=>`<path d='M20 40V100M20 100H225'/><path class='a' d='M20 70H40L46 55L58 85L70 55L82 85L94 55L106 85L112 70H140'/><rect x='140' y='52' width='40' height='36'/>${T(156,74,'m')}${A(160,40,200,40,'p')}${T(176,34,'x','p')}${A(200,76,165,76)}${T(186,92,'F=−kx')}${T(30,125,'T = 2π√(m/k)')}`,
+wave:()=>{let d='M20 70';for(let x=20;x<=220;x+=4)d+=`L${x} ${70-35*Math.sin((x-20)/100*2*Math.PI)}`;return `<path d='M15 70H228' stroke-dasharray='2'/><path class='a' d='${d}'/>${A(45,70,45,36,'p')}${T(49,56,'A','p')}${A(20,122,120,122)}${A(120,122,20,122)}${T(65,136,'λ')}${T(150,14,'v = fλ')}`},
+pv:()=>`<path d='M40 120V15M40 120H225'/>${T(20,20,'p')}${T(214,134,'V')}<path class='a' d='M60 30Q75 78 200 88'/>${T(110,64,'isothermal  pV = const','a')}<path class='p' d='M60 30Q70 95 200 110'/>${T(80,134,'adiabatic  pVᵞ = const','p')}`,
+grav:()=>`<circle cx='60' cy='70' r='22' class='a'/><circle cx='185' cy='70' r='12' class='p'/>${T(55,74,'M')}${T(181,74,'m')}${A(60,100,185,100)}${A(185,100,60,100)}${T(118,114,'r')}${A(84,70,115,70,'p')}${A(160,70,129,70,'p')}${T(70,30,'F = G M m / r²')}`,
+work:()=>`<path d='M20 100H225'/><rect x='85' y='68' width='50' height='32'/>${A(135,84,190,50,'p')}${T(178,42,'F','p')}<path d='M138 84H190' stroke-dasharray='2'/>${T(160,80,'θ')}${A(85,112,135,112)}${T(106,128,'s')}${T(30,30,'W = F s cosθ')}`,
+rot:()=>`<circle cx='120' cy='70' r='42'/><circle cx='120' cy='70' r='3' class='p'/>${A(120,70,162,70)}${T(138,64,'r')}${A(162,70,162,25,'p')}${T(168,40,'F','p')}${T(8,16,'τ = r F sinθ = Iα')}${T(8,134,'I ring = MR²   I disc = ½MR²')}`,
+pipe:()=>`<path d='M15 35H80L130 55H225M15 105H80L130 85H225'/>${A(25,70,70,70)}${T(26,62,'A₁, v₁')}${A(150,70,215,70,'p')}${T(150,64,'A₂, v₂ (faster)','p')}${T(24,128,'narrow part → higher v, lower p')}`,
+mole:()=>`<rect x='85' y='50' width='70' height='36' class='a'/>${T(104,72,'1 MOLE')}${A(85,58,45,32)}${T(8,22,'mass = n × M')}${A(155,58,195,32)}${T(120,22,'6.022×10²³ particles')}${A(120,86,120,112)}${T(72,128,'22.4 L at STP (gas)')}`,
+bohr:()=>`<circle cx='120' cy='70' r='5' class='p'/>${[16,32,48].map((r,i)=>`<circle cx='120' cy='70' r='${r}'/>${T(120+r*.72,70-r*.72,i+1)}`).join('')}${T(8,16,'Eₙ = −13.6 Z²/n² eV')}${T(8,134,'jump n₂→n₁ : ΔE = hν')}`,
+trend:(a,b)=>`<rect x='40' y='22' width='150' height='78'/>${T(78,64,'Periodic table')}${A(45,114,185,114,'p')}${T(50,130,'Across period: '+a,'p')}${A(210,28,210,98,'a')}${T(100,12,'Down group: '+b,'a')}`,
+ph:()=>{let r='';for(let i=0;i<14;i++)r+=`<rect x='${20+i*14}' y='50' width='14' height='30' style='fill:hsl(${i*18},70%,55%);stroke:none'/>`;return r+T(20,98,'0 acidic')+T(95,98,'7 neutral')+T(170,98,'14 basic')+T(20,34,'pH = −log[H⁺]')+T(20,125,'pH + pOH = 14')},
+eq:()=>`<path d='M25 125V10M25 125H230'/>${T(8,16,'c')}${T(205,138,'time')}<path class='a' d='M25 25Q70 80 120 84H225'/>${T(150,78,'[Reactants]','a')}<path class='p' d='M25 120Q70 98 120 96H225'/>${T(150,112,'[Products]','p')}<path stroke-dasharray='3' d='M120 15V125'/>${T(126,26,'rate fwd = rate rev')}`,
+energy:()=>`<path d='M20 125V10M20 125H230'/><path class='a' d='M25 90H65Q100 90 120 30Q140 90 175 110H225'/>${A(120,90,120,34,'p')}${T(126,66,'Ea','p')}${A(205,90,205,108)}${T(172,100,'ΔH')}${T(30,84,'Reactants')}${T(180,126,'Products')}`,
+vsepr:()=>`<circle cx='120' cy='70' r='5' class='a'/>${[[70,28],[172,28],[74,118],[168,118]].map(p=>`<path d='M120 70L${p[0]} ${p[1]}'/><circle cx='${p[0]}' cy='${p[1]}' r='7' class='p'/>`).join('')}${T(8,12,'sp³ 109.5° (CH₄)')}${T(8,136,'sp² 120° · sp 180°')}`
+};
+D.tIE=()=>D.trend('increases','decreases');D.tAS=()=>D.trend('decreases','increases');
+const FDB=[
+['Physics','Equations of motion','kinematics suvat uniform acceleration velocity displacement','v = u + at | s = ut + ½at² | v² = u² + 2as','For constant acceleration along a line. u = initial velocity, v = final velocity, a = acceleration, t = time, s = displacement. In a v–t graph the slope is a and the area under the line is s.','vt'],
+['Physics','Projectile motion','projectile range height time of flight angle','R = u² sin2θ / g | H = u² sin²θ / 2g | T = 2u sinθ / g','Object thrown with speed u at angle θ: horizontal velocity stays u cosθ, vertical motion has acceleration −g. Range is maximum at 45°; range is the same for θ and (90° − θ).','proj'],
+['Physics','Inclined plane & friction','friction incline newton laws of motion normal reaction mu','N = mg cosθ | f = μN | a = g(sinθ − μ cosθ)','Weight mg splits into mg sinθ along the slope and mg cosθ into the surface (balanced by N). Friction f = μN opposes motion; on a smooth plane a = g sinθ.','incl'],
+['Physics','Circular motion','centripetal acceleration angular velocity omega','a = v²/r = ω²r | F = mv²/r | v = ωr | T = 2πr/v','Even at constant speed the direction of velocity changes, so there is acceleration a toward the centre. Centripetal force is not a new force: tension, gravity or friction provides it.','circ'],
+['Physics','Work, energy & power','work kinetic energy potential power theorem','W = F s cosθ | KE = ½mv² | PE = mgh | P = W/t = Fv | W = ΔKE','Only the force component along the displacement does work. Work–energy theorem: net work = change in kinetic energy. Power is the rate of doing work (1 W = 1 J/s).','work'],
+['Physics','Gravitation','newton gravity escape velocity orbital g acceleration','F = GMm/r² | g = GM/R² | v_esc = √(2gR) = 11.2 km/s | v_orbit = √(GM/r)','Any two masses attract with force proportional to the product of masses and inversely to distance². G = 6.67×10⁻¹¹ N m²/kg². Escape velocity does not depend on the mass of the object.','grav'],
+['Physics','Simple pendulum','pendulum time period shm oscillation length','T = 2π√(L/g)','For small angles the restoring component mg sinθ ≈ mgθ, giving SHM. Period depends only on length L and g — not on mass or amplitude.','pend'],
+['Physics','Spring–mass SHM','spring shm hooke oscillation force constant energy','F = −kx | T = 2π√(m/k) | ω = √(k/m) | E = ½kA²','Restoring force is proportional to displacement and opposite to it (Hooke’s law). k = spring constant, A = amplitude. Total energy stays ½kA², swapping between kinetic and potential.','spring'],
+['Physics','Waves','wave speed wavelength frequency string sound','v = fλ | v(string) = √(T/μ) | y = A sin(kx − ωt) | k = 2π/λ','Wave speed = frequency × wavelength. On a string, speed depends on tension T and mass per unit length μ. A = amplitude, ω = 2πf = angular frequency.','wave'],
+['Physics','Thermodynamics (1st law)','first law heat work internal energy isothermal adiabatic carnot efficiency','ΔU = Q − W | pV = const (isothermal) | pVᵞ = const (adiabatic) | η = 1 − T₂/T₁ | Cp − Cv = R','Heat supplied goes into internal energy and work done by the gas. Isothermal: ΔU = 0. Adiabatic: Q = 0, so its curve is steeper. Carnot efficiency depends only on source and sink temperatures (in kelvin).','pv'],
+['Physics','Ideal gas & kinetic theory','ideal gas kinetic theory rms speed pressure boyle charles','pV = nRT | KE(avg) = (3/2)kT | v_rms = √(3RT/M) | p = ⅓ρv²','Average translational KE per molecule depends only on absolute temperature. n = moles, R = 8.314 J/mol K, k = Boltzmann constant.','pv'],
+['Physics','Rotation & torque','torque moment of inertia angular momentum rotational','τ = rF sinθ = Iα | L = Iω | I(ring) = MR² | I(disc) = ½MR² | KE = ½Iω²','Torque is the rotational analogue of force, and moment of inertia I is that of mass. With no external torque, angular momentum L = Iω is conserved.','rot'],
+['Physics','Bernoulli & fluids','bernoulli continuity fluid pipe pressure flow streamline','A₁v₁ = A₂v₂ | p + ½ρv² + ρgh = const','Continuity: an incompressible fluid speeds up in a narrow section. Bernoulli: faster flow means lower pressure (energy conservation per unit volume).','pipe'],
+['Chemistry','Mole concept','mole molarity molality avogadro stoichiometry mass','n = m/M | N = n × 6.022×10²³ | V = n × 22.4 L (STP) | Molarity = n / V(L) | molality = n / kg solvent','One mole = 6.022×10²³ particles, and M is molar mass. Molarity changes with temperature, molality does not.','mole'],
+['Chemistry','Bohr model','bohr atom hydrogen energy radius spectrum rydberg','rₙ = 0.529 n²/Z Å | Eₙ = −13.6 Z²/n² eV | 1/λ = R Z² (1/n₁² − 1/n₂²) | ΔE = hν','Electrons move in fixed orbits of quantised energy; light is emitted or absorbed when an electron jumps between levels. R = 1.097×10⁷ m⁻¹. Valid only for one-electron species (H, He⁺, Li²⁺).','bohr'],
+['Chemistry','de Broglie & Heisenberg','de broglie heisenberg uncertainty wave particle duality quantum','λ = h/mv | Δx·Δp ≥ h/4π | E = hν | c = νλ','Matter has a wavelength λ = h/mv (h = 6.626×10⁻³⁴ J s). Position and momentum cannot both be known exactly at the same time.','bohr'],
+['Chemistry','Ionisation energy & electronegativity','ionisation energy electronegativity periodic trend','IE ∝ Zeff / r | EN: F 4.0 > O 3.5 > N 3.0 ≈ Cl 3.0','Both increase across a period (more nuclear charge, smaller atom) and decrease down a group. Exceptions: IE of N > O and Be > B (stable half-filled / fully-filled subshells).','tIE'],
+['Chemistry','Atomic size trend','atomic radius size periodic trend ionic radius','Across period: size ↓ | Down group: size ↑ | Cation < atom < anion','Across a period nuclear charge rises with the same number of shells, pulling electrons in. Down a group new shells are added. Among isoelectronic ions, more protons means smaller radius.','tAS'],
+['Chemistry','pH & pOH','ph poh acid base buffer ionic product kw henderson','pH = −log[H⁺] | pH + pOH = 14 | Kw = [H⁺][OH⁻] = 10⁻¹⁴ | pH = pKa + log([salt]/[acid])','pH < 7 acidic, 7 neutral (25 °C), > 7 basic. Each pH unit is a 10× change in [H⁺]. The Henderson equation gives the pH of an acidic buffer.','ph'],
+['Chemistry','Chemical equilibrium','equilibrium kc kp le chatelier reaction quotient','Kc = [C]ᶜ[D]ᵈ / [A]ᵃ[B]ᵇ | Kp = Kc(RT)^Δn | ΔG° = −RT ln K','At equilibrium forward rate = reverse rate and concentrations stay constant. K > 1 favours products. Le Chatelier: the system shifts to oppose a change in concentration, pressure or temperature.','eq'],
+['Chemistry','Thermochemistry','enthalpy entropy gibbs hess law heat thermodynamics','ΔU = q + w | ΔH = ΔU + ΔnRT | q = mcΔT | ΔG = ΔH − TΔS','ΔH < 0 is exothermic, ΔH > 0 endothermic. A reaction is spontaneous when ΔG < 0. Hess’s law: total ΔH is the same whatever the path.','energy'],
+['Chemistry','Gas laws','boyle charles gay lussac avogadro ideal gas','p₁V₁ = p₂V₂ | V/T = const | p/T = const | pV = nRT','Boyle (T constant), Charles (p constant) and Gay-Lussac (V constant) combine into pV = nRT. Temperature must be in kelvin; R = 0.0821 L atm / mol K.','pv'],
+['Chemistry','Hybridisation & shapes','hybridisation vsepr shape bond angle sp3 sp2 sp','sp³ = 109.5° | sp² = 120° | sp = 180° | H = ½(V + M − C + A)','Mixing s and p orbitals gives equivalent hybrid orbitals: CH₄ (sp³, tetrahedral), C₂H₄ (sp², planar), C₂H₂ (sp, linear). Lone pairs squeeze angles (NH₃ 107°, H₂O 104.5°).','vsepr'],
+['Chemistry','Hydrocarbons','alkane alkene alkyne general formula organic','Alkane CₙH₂ₙ₊₂ | Alkene CₙH₂ₙ | Alkyne CₙH₂ₙ₋₂ | Markovnikov rule','Alkanes are saturated (substitution reactions); alkenes and alkynes undergo addition. Markovnikov: in HX addition, H goes to the carbon that already has more hydrogens.','vsepr']
+];
+const fCard=e=>`<div class="card"><div class="row"><h2>${e[1]}</h2><span class="badge ${e[0]==='Physics'?'':'g'}">${e[0]}</span></div>${e[3].split('|').map(f=>`<div class="f">${f.trim()}</div>`).join('')}<p>${e[4]}</p><svg class="dg" viewBox="0 0 240 140">${D[e[5]]()}</svg></div>`;
+function fSearch(){const s=$('fs').value,tk=$('fq').value.toLowerCase().trim().split(' ').filter(Boolean);
+ const r=FDB.filter(e=>!s||e[0]===s).map(e=>{const h=(e[1]+' '+e[2]+' '+e[3]).toLowerCase();return [e,tk.length?tk.filter(t=>h.includes(t)).length:1]}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+ $('fres').innerHTML=r.length?r.slice(0,6).map(x=>fCard(x[0])).join(''):'<div class="card">Is naam ka formula nahi mila. Dusra naam try karo (jaise: projectile, pH, bohr, gas, gravitation).</div>'}
+function fGo(i){$('fq').value=FDB[i][1];fSearch()}
+function fChips(){const s=$('fs').value;$('fchips').innerHTML=FDB.map((e,i)=>[e,i]).filter(x=>!s||x[0][0]===s).map(x=>`<button style="padding:3px 8px;font-size:12px;margin:2px" onclick="fGo(${x[1]})">${x[0][1]}</button>`).join('')}
+FDB.push(
+['Physics','Doppler effect (extra)','doppler sound frequency source observer moving','f′ = f (v ± v_o) / (v ∓ v_s)','Observer moving toward source: +v_o on top. Source moving toward observer: −v_s at bottom. Beyond NCERT-11 depth, but common in tests.','wave','Extra'],
+['Physics','Kepler’s laws (extra)','kepler planet orbit period areas','T² ∝ r³ | T² = 4π²r³/GM | dA/dt = L/2m','Orbits are ellipses; the Sun–planet line sweeps equal areas in equal times (angular momentum conserved).','grav','Extra'],
+['Physics','Stokes & terminal velocity (extra)','stokes viscosity terminal velocity drag','F = 6πηrv | v_t = 2r²(ρ−σ)g / 9η','Drag grows with speed until it balances weight minus buoyancy; then speed stays constant (terminal velocity).','','Extra'],
+['Physics','Elastic collision (extra)','collision elastic inelastic restitution momentum','v₁ = [(m₁−m₂)u₁ + 2m₂u₂]/(m₁+m₂) | e = (v₂−v₁)/(u₁−u₂)','Momentum is always conserved; KE too only if elastic (e = 1). Equal masses swap velocities.','','Extra'],
+['Chemistry','Arrhenius equation (extra)','arrhenius rate constant activation energy kinetics','k = A e^(−Ea/RT) | ln(k₂/k₁) = (Ea/R)(1/T₁ − 1/T₂)','Rate constant rises with temperature; larger Ea means stronger temperature effect. Class 12 topic, useful with energy profiles.','energy','Extra'],
+['Chemistry','Van der Waals gas (extra)','van der waals real gas','(p + an²/V²)(V − nb) = nRT','Corrects ideal gas: a = attraction between molecules, b = molecular volume. Real gases act ideal at high T, low p.','','Extra'],
+['Chemistry','Solubility product (extra)','ksp solubility precipitation common ion','AₓB_y: Ksp = xˣ yʸ s^(x+y) | precipitate if Q > Ksp','Ksp is the equilibrium constant for dissolving a sparingly soluble salt; a common ion lowers solubility.','eq','Extra']
+);
+const fCard2=e=>`<div class="card"><div class="row"><h2>${e[1]}</h2><span><span class="badge ${e[0]==='Physics'?'':'g'}">${e[0]}</span> <span class="badge" style="background:none;border:1px solid var(--line);color:var(--mut)">${e[6]||'NCERT'}</span></span></div>${e[3].split('|').map(f=>`<div class="f">${f.trim()}</div>`).join('')}<p>${e[4]}</p>${D[e[5]]?`<svg class="dg" viewBox="0 0 240 140">${D[e[5]]()}</svg>`:''}</div>`;
+// level: 1 Basic, 2 Medium, 3 Hard/Extra (first char); order = BOOKS chapters
+const LIST={Physics:[
+['1[F]=MLT⁻² · [E]=ML²T⁻² · [P]=ML²T⁻³ · [pressure]=ML⁻¹T⁻²','1Error: Δ(a±b)=Δa+Δb · Δ(ab)/ab=Δa/a+Δb/b · Δ(aⁿ)/aⁿ=nΔa/a','2Mean abs error = Σ|aᵢ−ā|/n · % error = Δa/a×100','3Dimensional analysis: T=2π√(l/g) from [T]=[L]ᵃ[g]ᵇ'],
+['1v=u+at · s=ut+½at² · v²=u²+2as','1avg speed = total dist/total time · v_avg=Δx/Δt','2sₙ=u+a(2n−1)/2 · free fall: h=½gt², v=√(2gh)','3a=dv/dt=v dv/dx · s=∫v dt · v_AB=v_A−v_B'],
+['1R=u²sin2θ/g · H=u²sin²θ/2g · T=2u sinθ/g','1A·B=AB cosθ · |A×B|=AB sinθ · |A+B|=√(A²+B²+2AB cosθ)','2River: t=d/v_b · drift=v_r·t · shortest path: sinθ=v_r/v_b','3Trajectory: y=x tanθ−gx²/(2u²cos²θ)'],
+['1F=ma=dp/dt · p=mv · J=FΔt=Δp','1f_s≤μ_sN · f_k=μ_kN · tanφ=μ_s','2Incline: a=g(sinθ−μcosθ) · Atwood: a=(m₁−m₂)g/(m₁+m₂)','3Banking: tanθ=v²/rg · v_max(flat)=√(μrg) · Rocket: F=v_rel·dm/dt'],
+['1W=Fs cosθ · KE=½mv² · PE=mgh · P=W/t=Fv','2W_net=ΔKE · PE_spring=½kx²','2e=(v₂−v₁)/(u₁−u₂) · perfectly inelastic v=(m₁u₁+m₂u₂)/(m₁+m₂)','3Vertical circle: v_bottom(min)=√(5gR) · v_top(min)=√(gR)'],
+['1x_cm=Σmx/Σm · ω=ω₀+αt · θ=ω₀t+½αt² · ω²=ω₀²+2αθ','1τ=rF sinθ=Iα · L=Iω · KE=½Iω²','1I: ring MR² · disc ½MR² · solid sphere ⅖MR² · rod (centre) ML²/12','2Parallel axis I=I_cm+Md² · perpendicular axis I_z=I_x+I_y','3Rolling: a=g sinθ/(1+k²/R²) · KE=½mv²(1+k²/R²)'],
+['1F=GMm/r² · g=GM/R² · g_h=g(1−2h/R) · g_d=g(1−d/R)','1v_esc=√(2gR)=11.2 km/s · v_orbit=√(GM/r)','2PE=−GMm/r · TE(orbit)=−GMm/2r · T²=4π²r³/GM','3g at latitude λ: g′=g−ω²R cos²λ'],
+['1Stress=F/A · Strain=ΔL/L · Y=FL/AΔL','1B=−pV/ΔV · η=shear stress/shear strain','2Energy stored=½×stress×strain×volume','3Poisson ratio σ=lateral/longitudinal strain'],
+['1p=p₀+ρgh · Pascal: F₁/A₁=F₂/A₂ · A₁v₁=A₂v₂','2Bernoulli: p+½ρv²+ρgh=const · Torricelli v=√(2gh)','2Surface tension S=F/l · excess p: bubble 4S/r, drop 2S/r','3Capillary h=2S cosθ/ρgr · Stokes F=6πηrv · Re=ρvd/η'],
+['1Q=mcΔT · Q=mL · °F=9/5°C+32 · K=°C+273.15','1ΔL=αLΔT · ΔA=2αAΔT · ΔV=3αVΔT','2Calorimetry: heat lost = heat gained','2Conduction Q/t=KAΔT/L · Newton cooling dT/dt=−k(T−T₀)','3Stefan P=σAeT⁴ · Wien λ_mT=b'],
+['1ΔU=Q−W · W=pΔV · Cp−Cv=R · γ=Cp/Cv','2Isothermal W=nRT ln(V₂/V₁) · Adiabatic pVᵞ=const, W=(p₁V₁−p₂V₂)/(γ−1)','2Carnot η=1−T₂/T₁ · COP=T₂/(T₁−T₂)','3TVᵞ⁻¹=const · Cv=fR/2'],
+['1pV=nRT=NkT · p=⅓ρv²','1KE=3kT/2 · v_rms=√(3RT/M) · v_avg=√(8RT/πM) · v_mp=√(2RT/M)','2U=fnRT/2 (mono f=3, di f=5) · Dalton p=Σpᵢ','3Mean free path λ=kT/(√2πd²p)'],
+['1T=2π√(m/k) · T=2π√(L/g) · f=1/T','1x=A sin(ωt+φ) · v=ω√(A²−x²) · a=−ω²x','2E=½kA² · KE=½k(A²−x²) · springs: series 1/k=1/k₁+1/k₂, parallel k=k₁+k₂','3Physical pendulum T=2π√(I/mgd) · damped A=A₀e^(−bt/2m)'],
+['1v=fλ · v_string=√(T/μ) · v_sound=√(γp/ρ)','1y=A sin(kx−ωt) · k=2π/λ · beats=|f₁−f₂|','2Closed pipe f=(2n−1)v/4L · open pipe & string f=nv/2L','3Doppler f′=f(v±v_o)/(v∓v_s) · I∝A²']
+],Chemistry:[
+['1n=m/M · N=n×6.022×10²³ · V=22.4n L (STP)','1Molarity=n/V(L) · molality=n/kg solvent · x_A=n_A/n_total','2M₁V₁=M₂V₂ · % mass=solute/solution×100 · molecular = n × empirical','3Limiting reagent: smallest (moles/coeff) · % yield=actual/theoretical×100'],
+['1Max e⁻=2n² · subshell 2(2l+1) · orbitals in shell n²','1E=hν=hc/λ · rₙ=0.529n²/Z Å · Eₙ=−13.6Z²/n² eV','21/λ=RZ²(1/n₁²−1/n₂²) · lines=n(n−1)/2 · λ=h/mv · Δx·Δp≥h/4π','2μ=√(n(n+2)) BM · nodes: radial n−l−1, angular l','3Photoelectric: hν=hν₀+½mv²'],
+['1IE ↑ across, ↓ down · EN: F>O>N=Cl · size: cation<atom<anion','2Zeff=Z−σ (Slater) · isoelectronic: size ↓ as Z ↑','2IE exceptions: N>O, Be>B · EA: Cl>F','3Pauling: χ_A−χ_B=0.208√Δ · Mulliken χ=(IE+EA)/2'],
+['1Bond order=(N_b−N_a)/2 · Formal charge=V−N−B/2','1H=½(V+M−C+A) · sp³ 109.5° · sp² 120° · sp 180°','2μ=q×d · 1 D=3.336×10⁻³⁰ C m · %ionic=μ_obs/μ_calc×100','3MO order O₂,F₂: σ2p<π2p<π*2p; B₂–N₂: π2p<σ2p','3Fajans: polarisation ↑ with small cation, large anion, high charge'],
+['1ΔU=q+w · w=−pΔV · ΔH=ΔU+ΔnRT · q=mcΔT','1ΔH°=ΣΔH_f(prod)−ΣΔH_f(react) · Hess law','2ΔG=ΔH−TΔS · spontaneous ΔG<0 · ΔG°=−2.303RT log K','2ΔH=ΣBE(react)−ΣBE(prod)','3w_rev=−2.303nRT log(V₂/V₁) · ΔS=q_rev/T · T_eq=ΔH/ΔS'],
+['1Kc=[C]ᶜ[D]ᵈ/[A]ᵃ[B]ᵇ · Kp=Kc(RT)^Δn · pH=−log[H⁺] · pH+pOH=14','2Q<K forward · α=√(Ka/C) · Ka×Kb=Kw=10⁻¹⁴','2Buffer: pH=pKa+log[salt]/[acid] · pOH=pKb+log[salt]/[base]','3Ksp: AₓB_y → xˣyʸsˣ⁺ʸ · salt SA+WB: pH=½(pKw−pKb−log C)'],
+['1Ox. no.: neutral sum=0 · ion=charge · H +1, O −2','2n-factor: KMnO₄ (acid 5, neutral 3, base 1) · K₂Cr₂O₇ 6 · oxalic 2','2Eq. wt=M/n-factor · N₁V₁=N₂V₂','3Ion–electron balancing · disproportionation: one element oxidised & reduced'],
+['1Unsaturation=(2C+2+N−H−X)/2','1%C=12/44×(m_CO₂/m)×100 · %H=2/18×(m_H₂O/m)×100','2Dumas %N=28V/(22400 w)×100 · Kjeldahl %N=1.4NV/w','2Rf=distance by solute/distance by solvent','3Carbocation: 3°>2°>1°>CH₃⁺ (hyperconjugation ∝ α-H)'],
+['1Alkane CₙH₂ₙ₊₂ · Alkene CₙH₂ₙ · Alkyne CₙH₂ₙ₋₂','1Markovnikov: H adds to C with more H · peroxide → anti-Markovnikov','2Combustion: CₙHₘ+(n+m/4)O₂→nCO₂+m/2 H₂O · Wurtz 2RX+2Na→R−R+2NaX','3Hückel aromatic: 4n+2 π e⁻ · ozonolysis → carbonyls']
+]};
+const LV=['','Basic','Medium','Hard'],LC=['','var(--ok)','var(--warn)','var(--bad)'];
+let vs='Physics',vch=-1,vlv=0;
+function drawVault(){
+ $('fside').innerHTML=['Physics','Chemistry'].map(s=>`<button class="${s===vs?'on':''}" onclick="vs='${s}';vch=-1;drawVault()">${s}</button>`).join('')+`<button class="${vch<0?'on':''}" onclick="vch=-1;drawVault()">All chapters</button>`+BOOKS[vs].map((c,i)=>`<button class="${vch===i?'on':''}" onclick="vch=${i};drawVault()">${i+1}. ${c}</button>`).join('');
+ const lv=[0,1,2,3].map(l=>`<button class="${vlv===l?'on':''}" onclick="vlv=${l};drawVault()">${l?LV[l]:'All levels'}</button>`).join(' ');
+ $('fmain').innerHTML=`<div style="margin-bottom:6px">${lv}</div>`+LIST[vs].map((it,i)=>[i,it]).filter(x=>vch<0||x[0]===vch).map(([i,it])=>{const r=it.filter(f=>!vlv||+f[0]===vlv);return `<details class="br" ${vch===i?'open':''}><summary>[ ${i+1}. ${BOOKS[vs][i]} · ${r.length} ]</summary>${r.map(f=>`<div class="f"><span class="lv" style="color:${LC[f[0]]}">${LV[f[0]]}</span>${f.slice(1)}</div>`).join('')||'<p class="mut">Is level ka formula nahi.</p>'}</details>`}).join('')}
+function fSearch(){const s=$('fs').value,tk=$('fq').value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+ const r=FDB.filter(e=>!s||e[0]===s).map(e=>{const h=(e[1]+' '+e[2]+' '+e[3]).toLowerCase();return [e,tk.length?tk.filter(t=>h.includes(t)).length:1]}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+ const m=[];Object.keys(LIST).filter(b=>!s||b===s).forEach(b=>LIST[b].forEach((it,i)=>it.forEach(f=>{const h=(BOOKS[b][i]+' '+f).toLowerCase(),n=tk.filter(t=>h.includes(t)).length;if(tk.length&&n)m.push([n,b,i,f])})));
+ m.sort((a,b)=>b[0]-a[0]);
+ $('fres').innerHTML=(r.length?r.slice(0,6).map(x=>fCard2(x[0])).join(''):'')+(m.length?`<div class="card"><h2>📖 Chapter-wise formulas (${m.length})</h2>${m.slice(0,15).map(x=>`<div class="f"><b>${x[1]} · ${BOOKS[x[1]][x[2]]}</b><br><span class="lv" style="color:${LC[x[3][0]]}">${LV[x[3][0]]}</span>${x[3].slice(1)}</div>`).join('')}</div>`:'')||'<div class="card">Is naam ka formula nahi mila. Dusra naam try karo (jaise: doppler, ph, bohr, gas, kepler).</div>'}
 
-// Timetable
-const TT={Physics:[["Mon","Units + Kinematics theory","1.5 hr"],["Tue","Kinematics numericals (30 Q)","1.5 hr"],["Wed","Laws of Motion","1.5 hr"],["Thu","Work Energy Power","1.5 hr"],["Fri","Gravitation + Rotation","1.5 hr"],["Sat","Weekly test + mistakes","2 hr"],["Sun","Backlog chapter revision","1 hr"]],
-Chemistry:[["Mon","Mole concept (NCERT + Qs)","1 hr"],["Tue","Atomic structure","1 hr"],["Wed","Periodic table trends","1 hr"],["Thu","Chemical bonding","1 hr"],["Fri","Equilibrium / Redox","1 hr"],["Sat","Weekly test + mistakes","1.5 hr"],["Sun","Organic basics + revision","1 hr"]],
-Biology:[["Mon","Living World + Classification (NCERT line by line)","1.5 hr"],["Tue","Plant Kingdom / Animal Kingdom","1.5 hr"],["Wed","Morphology + Anatomy","1.5 hr"],["Thu","Cell + Biomolecules","1.5 hr"],["Fri","Cell Cycle + Photosynthesis","1.5 hr"],["Sat","Weekly test + diagrams","2 hr"],["Sun","Human physiology revision","1 hr"]]};
-function tt(s){Object.keys(TT).forEach(x=>$('t-'+x).className=x===s?'on':'');$('ttb').innerHTML='<tr><th>Day</th><th>Topic</th><th>Time</th></tr>'+TT[s].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
-
-// Goals
-const G={d:["Class attend + notes revise","1 hr backlog","30 MCQs","Workout 60 min","Water 14 glasses"],w:["1 full Class 11 chapter se backlog clear","Weekly test (45 Q)","Mistake notebook review","Weight −0.5 kg"],m:["4–5 chapters backlog complete","2 full-length mock tests","Weight −2 kg","Revision cycle of finished chapters"]};
-Object.keys(G).forEach(k=>$('g-'+k).innerHTML=G[k].map(x=>`<div class="row"><span class="t">• ${x}</span></div>`).join(''));
-
-// Tabs
-const T=[["routine","⏱️ Routine"],["ncert","📚 NCERT"],["tt","🗓️ Timetable"],["goals","🎯 Goals"],["lab","🧬 Diagrams & Formulas"]];
-$('tabs').innerHTML=T.map(t=>`<button id="tb-${t[0]}" onclick="sw('${t[0]}')">${t[1]}</button>`).join('');
-function sw(id){T.forEach(t=>{$('p-'+t[0]).classList.toggle('hide',t[0]!==id);$('tb-'+t[0]).className=t[0]===id?'on':''});if(id==='lab')setTimeout(()=>lab(labSub),30)}
-
-$('wt').value=st.w;$('wc').textContent=st.water;$('armBtn').textContent='🔔 Auto-Alarm: '+(armed?'ARMED':'OFF');
-// ===== LAB =====
-let labSub='Physics';
-const txt='font-size="11" fill="currentColor"';
-const SV={
-Physics:'<svg viewBox="0 0 320 150" width="100%" style="color:var(--tx)"><line x1="10" y1="130" x2="310" y2="130" stroke="var(--mut)"/><path d="M20 130 Q160 -30 300 130" fill="none" stroke="var(--cy)" stroke-width="2" stroke-dasharray="5"/><line x1="20" y1="130" x2="75" y2="90" stroke="var(--am)" stroke-width="3"/><text x="78" y="88" '+txt+'>u at angle θ</text><line x1="160" y1="130" x2="160" y2="50" stroke="var(--em)" stroke-dasharray="3"/><text x="165" y="85" '+txt+'>H = u²sin²θ/2g</text><text x="110" y="146" '+txt+'>Range R = u²sin2θ/g</text></svg>',
-Chemistry:'<svg viewBox="0 0 320 170" width="100%" style="color:var(--tx)"><circle cx="110" cy="85" r="10" fill="#ef4444"/><circle cx="110" cy="85" r="30" fill="none" stroke="var(--mut)"/><circle cx="110" cy="85" r="55" fill="none" stroke="var(--mut)"/><circle cx="110" cy="85" r="80" fill="none" stroke="var(--mut)"/><circle cx="140" cy="85" r="5" fill="var(--cy)"/><circle cx="165" cy="85" r="5" fill="var(--cy)"/><path d="M165 85 L190 85" stroke="var(--am)" stroke-width="2"/><text x="195" y="60" '+txt+'>n=1: −13.6 eV</text><text x="195" y="80" '+txt+'>n=2: −3.4 eV</text><text x="195" y="100" '+txt+'>n=3: −1.51 eV</text><text x="195" y="125" '+txt+'>Jump: ΔE = hν</text></svg>',
-Biology:'<svg viewBox="0 0 320 170" width="100%" style="color:var(--tx)"><ellipse cx="140" cy="85" rx="120" ry="72" fill="none" stroke="var(--em)" stroke-width="2"/><circle cx="130" cy="80" r="28" fill="#6366f155" stroke="#6366f1"/><circle cx="130" cy="80" r="8" fill="#6366f1"/><ellipse cx="205" cy="60" rx="16" ry="8" fill="#f59e0b66" stroke="#f59e0b"/><ellipse cx="80" cy="125" rx="14" ry="7" fill="#f59e0b66" stroke="#f59e0b"/><path d="M180 110 q10 -10 20 0 q10 10 20 0" fill="none" stroke="var(--cy)" stroke-width="2"/><text x="262" y="40" '+txt+'>Nucleus</text><line x1="130" y1="55" x2="260" y2="38" stroke="var(--mut)"/><text x="236" y="64" '+txt+'>Mitochondria</text><text x="228" y="114" '+txt+'>ER</text><text x="262" y="150" '+txt+'>Cell membrane</text><line x1="255" y1="146" x2="240" y2="130" stroke="var(--mut)"/></svg>'};
-const EX={
-Physics:'Projectile motion: horizontal velocity u cosθ constant rehti hai, vertical mein g neeche kheenchta hai. Max range θ=45° par aur θ aur (90°−θ) ka range same hota hai. Top par vertical velocity = 0.',
-Chemistry:'Bohr model: electron fixed orbit (n) mein energy khoye bina ghoomta hai. Upar ki orbit jaane par energy absorb, neeche aane par photon emit hota hai. Energy E = −13.6 Z²/n² eV. 3D mein nucleus ke around electrons dekho.',
-Biology:'Animal cell: Nucleus = control centre (DNA), Mitochondria = ATP (powerhouse), ER = protein/lipid synthesis, Membrane = fluid mosaic model. 3D mein DNA double helix dekho: A=T (2 H-bond), G≡C (3 H-bond).'};
-const T3={Physics:'3D projectile: parabolic path + moving ball',Chemistry:'3D atom: nucleus + 3 orbits, electrons revolving',Biology:'3D DNA double helix (A-T, G-C rungs)'};
-const F={
-Physics:['1. Units & Measurements|[F]=MLT⁻², [E]=ML²T⁻²; % error = ΔA/A×100; for AᵖBᵠ: ΔZ/Z = pΔA/A + qΔB/B','2. Motion in Straight Line|v=u+at; s=ut+½at²; v²=u²+2as; sₙ=u+a(2n−1)/2','3. Motion in a Plane|R=u²sin2θ/g; H=u²sin²θ/2g; T=2u sinθ/g; a꜀=v²/r=ω²r','4. Laws of Motion|F=ma; p=mv; f=μN; incline a=g(sinθ−μcosθ); impulse=FΔt=Δp','5. Work, Energy, Power|W=Fs cosθ; KE=½mv²; PE=mgh; spring PE=½kx²; P=W/t=Fv','6. System of Particles|τ=Iα; L=Iω; KE=½Iω²; I(ring)=MR², I(disc)=½MR², I(solid sphere)=2/5 MR²; x꜀ₘ=Σmx/Σm','7. Gravitation|F=GMm/r²; g=GM/R²; g_h=g(1−2h/R); vₑ=√(2gR); v₀=√(gR); T²∝r³','8. Mechanical Prop. of Solids|stress=F/A; strain=ΔL/L; Y=FL/AΔL; U=½×stress×strain×V','9. Mechanical Prop. of Fluids|P=P₀+ρgh; A₁v₁=A₂v₂; P+½ρv²+ρgh=const; vₜ=2r²(ρ−σ)g/9η; h=2Tcosθ/rρg','10. Thermal Properties|Q=mcΔT; Q=mL; ΔL=αLΔT; H=kAΔT/L; Q=σAT⁴ (Stefan)','11. Thermodynamics|ΔU=Q−W; W(iso)=nRT ln(V₂/V₁); PVᵞ=const (adiabatic); η=1−T₂/T₁','12. Kinetic Theory|PV=nRT; P=⅓ρv²; v_rms=√(3RT/M); KE=3/2 kT; U=(f/2)nRT','13. Oscillations|x=A sin(ωt+φ); ω=√(k/m); T=2π√(m/k); pendulum T=2π√(l/g); E=½kA²','14. Waves|v=fλ; v=√(T/μ); y=A sin(kx−ωt); f=nv/2L (string); beats=|f₁−f₂|; Doppler f′=f(v±v₀)/(v∓vₛ)'],
-Chemistry:['1. Basic Concepts|n=m/M; n=N/Nₐ; Molarity=n/V(L); Molality=n/kg solvent; M₁V₁=M₂V₂','2. Structure of Atom|Eₙ=−13.6Z²/n² eV; rₙ=0.529n²/Z Å; λ=h/mv; ΔxΔp≥h/4π; max e⁻=2n²','3. Periodic Classification|Z_eff=Z−σ; trend: IE, EN ↑ across period, ↓ down group; size opposite','4. Chemical Bonding|Formal charge=V−N−B/2; Bond order=(Nb−Na)/2; μ=q×d; Hybridisation H=½(V+M−C+A)','5. Thermodynamics|ΔU=q+w; ΔH=ΔU+ΔnRT; ΔG=ΔH−TΔS; ΔG°=−RT lnK; w=−PΔV','6. Equilibrium|Kp=Kc(RT)^Δn; pH=−log[H⁺]; pH+pOH=14; Ka×Kb=Kw; compare Q with K','7. Redox Reactions|Ox. no. change = e⁻ transfer; Eq. wt=M/n-factor; sum of ox. no. = charge','8. Organic Basics|DBE=(2C+2+N−H−X)/2; carbocation 3°>2°>1°; %C=(12/44)(w_CO₂/w)×100; %H=(2/18)(w_H₂O/w)×100','9. Hydrocarbons|CₙH₂ₙ₊₂ alkane, CₙH₂ₙ alkene, CₙH₂ₙ₋₂ alkyne; Markovnikov rule; combustion needs (3n+1)/2 O₂ for alkane'],
-Biology:['1. The Living World|Taxonomy: Species→Genus→Family→Order→Class→Phylum→Kingdom','2. Biological Classification|Whittaker 5 kingdoms: Monera, Protista, Fungi, Plantae, Animalia','3. Plant Kingdom|Algae, Bryophyta, Pteridophyta, Gymnosperms, Angiosperms; alternation of generations','4. Animal Kingdom|Porifera→Chordata; symmetry, coelom, segmentation basis','5. Morphology of Flowering Plants|Root, stem, leaf, inflorescence, flower, fruit, seed; floral formula','6. Anatomy of Flowering Plants|Meristematic vs permanent tissue; dicot vs monocot; secondary growth','7. Structural Org. in Animals|Epithelial, connective, muscular, neural tissue; cockroach & frog','8. Cell: Unit of Life|Prokaryote vs eukaryote; organelles; fluid mosaic model','9. Biomolecules|Proteins, carbs, lipids, nucleic acids; enzymes: Km, Vmax','10. Cell Cycle & Division|G1→S→G2→M; mitosis PMAT; meiosis I crossing over','11. Photosynthesis|6CO₂+12H₂O→C₆H₁₂O₆+6O₂+6H₂O; light reaction + Calvin cycle; C3 vs C4','12. Respiration in Plants|Glycolysis (2 ATP net) → Krebs → ETS; ~30–38 ATP; RQ=CO₂/O₂','13. Plant Growth & Dev.|Auxin, gibberellin, cytokinin, ABA, ethylene; photoperiodism, vernalisation','14. Breathing & Gas Exchange|TV 500 mL; VC=TV+IRV+ERV; TLC=VC+RV; O₂ carried as HbO₂','15. Body Fluids & Circulation|Blood groups; 4-chambered heart; ECG; cardiac output=HR×SV','16. Excretory Products|Nephron; GFR 125 mL/min; ultrafiltration; ADH, RAAS','17. Locomotion & Movement|Sliding filament theory; actin-myosin; 206 bones','18. Neural Control|Neuron; action potential; reflex arc; synapse','19. Chemical Coordination|Pituitary, thyroid, pancreas (insulin/glucagon), adrenal hormones']};
-let R,S3,C3,obj,ups=[],t3=0,loopOn=false;
-function scene3(sub){
- try{
- const cv=$('c3'),w=cv.clientWidth||300,h=260;
- if(!R)R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
- R.setSize(w,h,false);S3=new THREE.Scene();C3=new THREE.PerspectiveCamera(50,w/h,.1,100);C3.position.set(0,0,10);
- S3.add(new THREE.AmbientLight(0xffffff,.7));const l=new THREE.PointLight(0xffffff,1);l.position.set(5,5,8);S3.add(l);
- obj=new THREE.Group();S3.add(obj);ups=[];
- const M=c=>new THREE.MeshPhongMaterial({color:c}),Sp=(r,c)=>new THREE.Mesh(new THREE.SphereGeometry(r,16,16),M(c));
- if(sub==='Chemistry'){obj.add(Sp(.7,0xef4444));
- [2,3.2,4.4].forEach((r,i)=>{const g=new THREE.Mesh(new THREE.TorusGeometry(r,.03,8,64),M(0x94a3b8));g.rotation.x=Math.PI/2+i*.5;g.rotation.y=i*.4;obj.add(g);const e=Sp(.25,0x22d3ee);obj.add(e);
- ups.push(t=>{const a=t*(1.6-i*.4);e.position.set(Math.cos(a)*r,Math.sin(a)*r,0).applyEuler(g.rotation)})})}
- else if(sub==='Physics'){const P=x=>3-x*x*.19;for(let x=-4;x<=4.01;x+=.5){const d=Sp(.1,0x94a3b8);d.position.set(x,P(x),0);obj.add(d)}
- const gr=new THREE.Mesh(new THREE.BoxGeometry(9,.1,3),M(0x475569));gr.position.set(0,-.1,0);obj.add(gr);const b=Sp(.3,0xfbbf24);obj.add(b);
- ups.push(t=>{const x=-4+8*((t*.25)%1);b.position.set(x,P(x),0)});obj.position.y=-1.5}
- else{for(let i=0;i<42;i++){const a=i*.4,y=(i-21)*.26,p1=new THREE.Vector3(Math.cos(a)*1.4,y,Math.sin(a)*1.4),p2=new THREE.Vector3(-Math.cos(a)*1.4,y,-Math.sin(a)*1.4);
- const s1=Sp(.14,0x22d3ee),s2=Sp(.14,0xfbbf24);s1.position.copy(p1);s2.position.copy(p2);obj.add(s1,s2);
- obj.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1,p2]),new THREE.LineBasicMaterial({color:0x34d399})))}}
- if(!loopOn){loopOn=true;(function lp(){requestAnimationFrame(lp);t3+=.016;if(obj)obj.rotation.y+=.008;ups.forEach(f=>f(t3));if(R&&S3)R.render(S3,C3)})()}
- }catch(e){$('c3t').textContent='3D is device par support nahi hua.';return}
- $('c3t').textContent=T3[sub];
-}
-function lab(s){labSub=s;['Physics','Chemistry','Biology'].forEach(x=>$('l-'+x).className=x===s?'on':'');
- $('svgbox').innerHTML=SV[s];$('ex').textContent=EX[s];
- $('fh').textContent=s==='Biology'?'📖 All 19 chapters — key points':'📐 All chapters — formulas ('+F[s].length+')';
- $('fl').innerHTML=F[s].map(x=>{const[a,b]=x.split('|');return '<div class="row" style="display:block"><b>'+a+'</b><div class="mut" style="font-size:13px;color:var(--tx)">'+b+'</div></div>'}).join('');
- scene3(s)}
-bmi();setMode(mode);sw('routine');drawNc();tt('Physics');tickClock();
+taskInit();drawTasks();tmDraw();fChips();drawVault();
+// TABS
+document.querySelectorAll('#tabs [data-t]').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs [data-t]').forEach(x=>x.className=x===b?'on':'');['routine','ncert','cbt','plan','tasks','voice','vault'].forEach(t=>$(t).hidden=t!==b.dataset.t)});
+render();drawChaps();drawGoals();
 </script>
-</body></html>
+</body>
+</html>
